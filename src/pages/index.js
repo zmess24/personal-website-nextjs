@@ -5,11 +5,20 @@ import Dropdown from "@/components/Dropdown";
 import Footer from "@/components/Footer";
 import Video from "@/components/Video";
 import Head from "next/head";
+import { getSortedProjectsData } from "../lib/projects";
 
-export default function Home() {
+export async function getStaticProps() {
+	const projects = getSortedProjectsData();
+	return {
+		props: {
+			projects,
+		},
+	};
+}
+
+export default function Home({ projects }) {
 	let [dropDownState, setDropDownState] = useState(false);
 	let [dropDownData, setDropDownData] = useState({ name: "", data: [] });
-	let projects = [];
 
 	let handleToggle = (e) => {
 		e.preventDefault();
@@ -27,7 +36,6 @@ export default function Home() {
 			<Video />
 			<div className="wrapper">
 				<Header dropDownState={dropDownState} handleClick={handleToggle} />
-				{/* <Header handleClick={handleToggle} /> */}
 				<Dropdown dropDownState={dropDownState} data={dropDownData} handleClick={handleToggle} />
 				<section className="banner"></section>
 				<Footer />

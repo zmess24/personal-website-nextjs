@@ -1,24 +1,20 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
 
-const Card = ({ data: { frontmatter } }) => {
-	// const image = getImage(frontmatter.image);
-
+const Card = ({ data }) => {
 	return (
-		<main className="card" key={frontmatter.title}>
-			{/* <section className="card-image">
-				<a className="image is-4by3" href={frontmatter.link} target="_blank" rel="noreferrer"></a>
-			</section> */}
-			<a href={frontmatter.link} target="_blank" rel="noreferrer">
-				{/* <GatsbyImage className="card-image " alt="image" image={image} /> */}
-			</a>
+		<main className="card" key={data.title}>
+			<Link href={data.link} target="_blank" rel="noreferrer">
+				<img className="card-image " alt="image" src={data.image} />
+			</Link>
 			<section className="card-content">
-				<h6 className="subtitle is-6">{frontmatter.title}</h6>
-				<p>{frontmatter.description}</p>
+				<h6 className="subtitle is-6">{data.title}</h6>
+				<p>{data.description}</p>
 				<ul id="tags" className="is-flex-direction-row">
-					{frontmatter.technologies &&
-						frontmatter.technologies.map((tag) => {
+					{data.technologies &&
+						data.technologies.map((tag) => {
 							return (
 								<li key={tag} className="tag is-info is-light">
 									{tag}
@@ -28,10 +24,10 @@ const Card = ({ data: { frontmatter } }) => {
 				</ul>
 			</section>
 			<section className="card-footer">
-				<span className="date">{frontmatter.date}</span>
-				<a href={frontmatter.github} target="_blank" rel="noreferrer">
-					<FontAwesomeIcon size="lg" icon={["fab", "github"]} />
-				</a>
+				<span className="date">{data.date}</span>
+				<Link href={data.github} target="_blank" rel="noreferrer">
+					<FontAwesomeIcon size="lg" icon={faGithub} />
+				</Link>
 			</section>
 		</main>
 	);
