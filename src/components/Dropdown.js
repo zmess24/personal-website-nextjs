@@ -1,5 +1,5 @@
-import * as React from "react";
 import Card from "./Card";
+import Link from "next/link";
 
 const Dropdown = ({ dropDownState, data, handleClick }) => {
 	let classNames = dropDownState ? "dropdown show-dropdown" : "dropdown hide-dropdown";
@@ -8,15 +8,14 @@ const Dropdown = ({ dropDownState, data, handleClick }) => {
 			<nav className="navbar" role="navigation" aria-label="secondary">
 				<header className="navbar-menu">
 					<section className="navbar-item">
-						<a className="hamburger" href="/" onClick={handleClick} title="close">
+						<Link className="hamburger" href="/" onClick={handleClick} title="close">
 							<span></span>
 							<span></span>
 							<span></span>
-						</a>
+						</Link>
 					</section>
 					<section className="navbar-item navbar-brand">
-						{/* <StaticImage alt="Logo" src="../images/logo_2.png" /> */}
-						<a href="/">Zachary Messinger</a>
+						<Link href="/">Zachary Messinger</Link>
 					</section>
 				</header>
 			</nav>
