@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+$title-color: #ff0000;
+
+@import "~bulma/bulma.sass";
+@import "_navbar.scss";
+@import "_dropdown.scss";
+@import "_card.scss";
+@import "_video.scss";
+
+#container {
+	background-color: black;
+}

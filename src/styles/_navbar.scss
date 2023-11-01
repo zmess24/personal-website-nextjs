@@ -1,0 +1,99 @@
+.navbar {
+	background-color: transparent;
+}
+
+.navbar[aria-label="tertiary"] {
+	background-color: transparent;
+}
+
+#primary-nav {
+	.navbar-item:first-child {
+		display: flex;
+		align-items: center;
+		justify-content: left;
+		background-color: rgba(40, 40, 40, 0.7);
+	}
+
+	.navbar-item:first-child::after {
+		border-color: rgba(40, 40, 40, 0.7) transparent transparent transparent;
+		border-style: solid;
+		border-width: 50px 60px 0px 0px;
+		content: "";
+		height: 0;
+		width: 0;
+		right: -60px;
+		top: 0;
+		position: absolute;
+		z-index: 1;
+	}
+}
+
+.navbar-menu {
+	display: flex;
+	justify-content: space-between;
+	box-shadow: none !important;
+	z-index: 1;
+
+	section {
+		width: 25%;
+	}
+
+	.navbar-brand {
+		justify-content: right !important;
+		display: flex;
+	}
+
+	.navbar-item a {
+		font-size: 0.9rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		margin: 0px 10px;
+		color: white;
+		text-decoration: none;
+
+		svg {
+			width: 1.1rem;
+			height: 1.1rem;
+		}
+	}
+
+	.navbar-item a:hover {
+		color: lightgray;
+		transition-duration: 500ms;
+	}
+}
+
+.alternate {
+	color: black !important;
+	transition: color 0.2s ease;
+}
+
+#footer {
+	width: 100vw;
+	display: flex;
+	justify-content: center !important;
+}
+
+@media screen and (max-width: 1023px) {
+	.navbar-menu {
+		background-color: transparent;
+		padding: 0px !important;
+		height: 100%;
+
+		section {
+			width: 47%;
+		}
+	}
+}
+
+@media screen and (max-width: 560px) {
+	.navbar-menu {
+		background-color: transparent;
+		padding: 0px !important;
+		height: 100%;
+
+		section {
+			width: 75%;
+		}
+	}
+}
