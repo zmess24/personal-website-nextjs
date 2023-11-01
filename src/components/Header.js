@@ -14,7 +14,7 @@ const Header = ({ dropDownState, handleClick }) => {
 					<Link href="/" title="open" onClick={handleClick}>
 						Blog
 					</Link>
-					<Link href="/">Contact</a>
+					<Link href="/">Contact</Link>
 				</section>
 				<section className="navbar-item navbar-brand is-hidden-mobile">
 					<Link href="/" className={classNames}>
