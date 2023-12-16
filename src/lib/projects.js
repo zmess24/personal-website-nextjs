@@ -27,7 +27,7 @@ export function getSortedProjectsData() {
 	});
 	// Sort posts by date
 	return allProjectData.sort((a, b) => {
-		if (a.date < b.date) {
+		if (b.date < a.date) {
 			return 1;
 		} else {
 			return -1;
