@@ -1,9 +1,21 @@
 import { getAllPostIds, getPostData } from "../../lib/posts";
+import Head from "next/head";
 
 export default function Post({ postData }) {
-	console.log(postData);
-
-	return <h1>Hello World!</h1>;
+	return (
+		<div>
+			<Head>
+				<title>{postData.title}</title>
+			</Head>
+			<article>
+				<h1>{postData.title}</h1>
+				<div>
+					<Date dateString={postData.date} />
+				</div>
+				<div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+			</article>
+		</div>
+	);
 }
 
 export async function getStaticProps({ params }) {
