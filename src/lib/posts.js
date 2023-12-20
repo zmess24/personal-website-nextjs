@@ -5,7 +5,6 @@ import path from "path";
 import matter from "gray-matter";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
-console.log("Projects Directory:", postsDirectory);
 
 export async function getPostData(id) {
 	const fullPath = path.join(postsDirectory, `${id}.md`);
@@ -34,7 +33,7 @@ export function getAllPostIds() {
 		const id = fileName.replace(/\.md$/, "");
 
 		// Read markdown file as string
-		const fullPath = path.join(projectsDirectory, fileName);
+		const fullPath = path.join(postsDirectory, fileName);
 		const fileContents = fs.readFileSync(fullPath, "utf8");
 
 		// Use gray-matter to parse the post metadata section
