@@ -1,6 +1,6 @@
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Head from "next/head";
-import "../styles/master.scss";
+import "../../styles/master.scss";
 
 export default function Post({ postData }) {
 	return (
