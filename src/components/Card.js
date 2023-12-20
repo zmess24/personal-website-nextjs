@@ -13,8 +13,8 @@ const Card = ({ data }) => {
 				<h6 className="subtitle is-6">{data.title}</h6>
 				<p>{data.description}</p>
 				<ul id="tags" className="is-flex-direction-row">
-					{data.technologies &&
-						data.technologies.map((tag) => {
+					{data.tags &&
+						data.tags.map((tag) => {
 							return (
 								<li key={tag} className="tag is-info is-light">
 									{tag}
@@ -25,9 +25,11 @@ const Card = ({ data }) => {
 			</section>
 			<section className="card-footer">
 				<span className="date">{data.date}</span>
-				<Link href={data.github} target="_blank" rel="noreferrer">
-					<FontAwesomeIcon size="lg" icon={faGithub} />
-				</Link>
+				{data.github && (
+					<Link href={data.github} target="_blank" rel="noreferrer">
+						<FontAwesomeIcon size="lg" icon={faGithub} />
+					</Link>
+				)}
 			</section>
 		</main>
 	);
