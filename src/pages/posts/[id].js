@@ -6,8 +6,8 @@ export default function Post({ postData }) {
 	return <h1>Hello World!</h1>;
 }
 
-export async function getStaticProps({ id }) {
-	const postData = await getPostData(id);
+export async function getStaticProps({ params }) {
+	const postData = await getPostData(params.id);
 	return {
 		props: {
 			postData,

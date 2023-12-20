@@ -70,7 +70,7 @@ export function getAllPostIds() {
 		const matterResult = matter(fileContents);
 
 		return {
-			id,
+			params: { id },
 			...matterResult.data,
 		};
 	});
