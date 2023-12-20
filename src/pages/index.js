@@ -6,11 +6,11 @@ import Footer from "@/components/Footer";
 import Video from "@/components/Video";
 import Head from "next/head";
 import { getSortedProjectsData } from "../lib/projects";
-import { getAllPostIds } from "../lib/posts";
+import { getSortedPostsData } from "../lib/posts";
 
 export async function getStaticProps() {
 	const projects = getSortedProjectsData();
-	const posts = getAllPostIds();
+	const posts = getSortedPostsData();
 
 	console.log("POSTS", posts);
 	return {
