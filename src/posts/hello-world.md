@@ -3,7 +3,7 @@ title: "Hello World"
 description: "My first post!"
 tags: ["Math", "Programattic", "Business"]
 date: "Dec 2023"
-link: "https://www.grapplegenius.com/"
+link: "/posts/hello-world"
 image: "/images/GrappleGenius.png"
 ---
 
