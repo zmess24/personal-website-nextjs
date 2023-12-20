@@ -12,6 +12,7 @@ export async function getStaticProps() {
 	const projects = getSortedProjectsData();
 	const posts = getAllPostIds();
 
+	console.log("POSTS", posts);
 	return {
 		props: {
 			projects,
