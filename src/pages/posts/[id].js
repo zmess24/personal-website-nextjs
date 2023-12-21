@@ -1,3 +1,4 @@
+"use client";
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Head from "next/head";
 import "../../styles/master.scss";
@@ -9,6 +10,14 @@ export default function Post({ postData }) {
 		<main>
 			<Head>
 				<title>{postData.title}</title>
+				<link
+					rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-coldark-dark.min.css"
+					integrity="sha512-UE88w575S5hQlj3QhY249ZKOe9noZYPtmKL6DwZnKQtTFRCw2dkRfUdp6GwxeV/mig7Q9G7H3vcX8ETVRDRrTg=="
+					crossorigin="anonymous"
+					referrerpolicy="no-referrer"
+				/>
+				{/* <link href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-coy-without-shadows.min.css" rel="stylesheet" /> */}
 			</Head>
 			<PostNav />
 			<div className="post-container">

@@ -40,6 +40,27 @@
 			margin-top: 1.25rem;
 			margin-bottom: 1.25rem;
 		}
+
+		pre {
+			border-radius: 10px;
+			font-size: 0.75rem;
+
+			.number {
+				color: #e6d37a;
+				align-items: center;
+				background-color: transparent;
+				border-radius: 0px;
+				display: inline;
+				font-size: 0.75rem;
+				height: 2em;
+				justify-content: center;
+				margin-right: 0px;
+				min-width: 2.5em;
+				padding: 0px;
+				text-align: center;
+				vertical-align: top;
+			}
+		}
 	}
 }
 
