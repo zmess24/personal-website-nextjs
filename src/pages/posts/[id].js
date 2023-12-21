@@ -1,20 +1,27 @@
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Head from "next/head";
 import "../../styles/master.scss";
+import PostNav from "./components/PostNav";
+import moment from "moment";
 
 export default function Post({ postData }) {
 	return (
-		<div className="post-container">
+		<main>
 			<Head>
 				<title>{postData.title}</title>
 			</Head>
-			<section>
-				<h1>{postData.title}</h1>
-				<span className="date">{postData.date}</span>
-			</section>
-			<hr />
-			<article dangerouslySetInnerHTML={{ __html: postData.contentHtml }}></article>
-		</div>
+			<PostNav />
+			<div className="post-container">
+				<article>
+					<section>
+						<h1>{postData.title}</h1>
+						<span className="date">{moment(postData.date).format("MMM DD YYYY")}</span>
+					</section>
+					<hr />
+					<div dangerouslySetInnerHTML={{ __html: postData.contentHtml }}></div>
+				</article>
+			</div>
+		</main>
 	);
 }
 

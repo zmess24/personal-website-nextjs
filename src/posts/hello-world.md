@@ -1,11 +1,13 @@
 ---
 title: "Hello World"
 description: "My first post!"
-tags: ["Math", "Programattic", "Business"]
-date: "Dec 2023"
+tags: ["Math", "Coding", "Business"]
+date: "12/20/2023"
 link: "/posts/hello-world"
 image: "/images/GrappleGenius.png"
 ---
+
+### This is an Intro Section:
 
 Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. The difference is in **when** it generates the HTML for a page.
 
@@ -13,3 +15,7 @@ Next.js has two forms of pre-rendering: **Static Generation** and **Server-side 
 -   **Server-side Rendering** is the pre-rendering method that generates the HTML on **each request**.
 
 Importantly, Next.js lets you **choose** which pre-rendering form to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
+
+```python
+print("hello World!")
+```

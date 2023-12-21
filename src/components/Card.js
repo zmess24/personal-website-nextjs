@@ -2,6 +2,7 @@ import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
+import moment from "moment";
 
 const Card = ({ data }) => {
 	return (
@@ -24,7 +25,7 @@ const Card = ({ data }) => {
 				</ul>
 			</section>
 			<section className="card-footer">
-				<span className="date">{data.date}</span>
+				<span className="date">{moment(data.date).format("MMM YYYY")}</span>
 				{data.github && (
 					<Link href={data.github} target="_blank" rel="noreferrer">
 						<FontAwesomeIcon size="lg" icon={faGithub} />
