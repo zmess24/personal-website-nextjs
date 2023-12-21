@@ -1,4 +1,5 @@
-import Card from "./Card";
+import ProjectCard from "./ProjectCard";
+import PostCard from "./PostCard";
 import Link from "next/link";
 
 const Dropdown = ({ dropDownState, data, handleClick }) => {
@@ -24,11 +25,7 @@ const Dropdown = ({ dropDownState, data, handleClick }) => {
 				<div id="title-section">{data.name && <h2>{data.name}</h2>}</div>
 				<ul>
 					{data.data.map((d) => {
-						return (
-							<li key={d}>
-								<Card data={d} />
-							</li>
-						);
+						return <li key={d}>{data.name === "Projects" ? <ProjectCard data={d} /> : <PostCard data={d} />}</li>;
 					})}
 				</ul>
 			</section>

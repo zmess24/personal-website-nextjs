@@ -1,7 +1,7 @@
 ---
-title: "Hello World"
+title: "Hello World! And welcome to my blog"
 description: "My first post!"
-tags: ["Math", "Coding", "Business"]
+tags: ["Business"]
 date: "12/20/2023"
 link: "/posts/hello-world"
 image: "/images/GrappleGenius.png"
@@ -43,6 +43,6 @@ def yt_get_titles(query):
 
 ```javascript
 function test() {
-    console.log("What's Going ON dawg)
+	console.log("What's Going on dawg");
 }
 ```

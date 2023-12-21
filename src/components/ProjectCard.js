@@ -6,7 +6,7 @@ import moment from "moment";
 
 const Card = ({ data }) => {
 	return (
-		<main className="card" key={data.title}>
+		<main className="card project" key={data.title}>
 			<Link href={data.link} target="_blank" rel="noreferrer">
 				<img className="card-image " alt="image" src={data.image} />
 			</Link>
