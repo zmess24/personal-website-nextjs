@@ -7,7 +7,7 @@ import moment from "moment";
 
 export default function Post({ postData }) {
 	return (
-		<main>
+		<main className="post-wrapper">
 			<Head>
 				<title>{postData.title}</title>
 				<link

@@ -18,9 +18,9 @@ When I had finished my application which I called GrappleGenius, I learned some 
 
 Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, ect) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the neural network itself.
 
-In GrappleGenius, I used prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into carefully formatted JSON.
+I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into carefully formatted JSON.
 
-For example, below is the system prompt I used for performing sentiment analysis in GrappleGenius:
+For example, below is the system prompt I prompt engineered to perform sentiment analysis:
 
 ```python
 system_role = "You are a helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructionial videos. I only want you to give 'True' or 'False' answers with no additional information."
