@@ -330,6 +330,4 @@ Classification Report:
 weighted avg       0.77      0.67      0.69        30
 ```
 
-Amazing! Using only 120 training examples, the **fine-tuned model (~90% accuracy)** is observing an almost **~13% increase in performance** compared to the **prompt engineered model (~77% accuaracy)** on the same test set of data! With an even a larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
-
-If you're int
+Amazing! Using only 120 training examples, the fine-tuned model is observing an almost **13%** increase in performance compared to the prompt engineered model! With an even a larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
