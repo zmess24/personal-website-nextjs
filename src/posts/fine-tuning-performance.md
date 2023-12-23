@@ -6,33 +6,33 @@ date: "12/27/2023"
 link: "/posts/fine-tuning-performance"
 ---
 
-Like many developers now-a-days, I have been playing around a lot recently in the large language model (LLM) ecosystem and I decided to build an experimental application that leverages an LLM in a fun but intuitive way. As a JuJitsu pracitionar, the goal of my application was simple - given a YouTube video link, use an LLM to:
+I have been playing around a lot recently with different LLM models, and to test my knoweldge, I decided to build a proof-of-concept application that leverages an LLM in a fun, focused, but intuitive way using OpenAI's API. As a JuJitsu pracitionar who is constantly writing down techniques I watch into the notes section of my phone, the objective of my project was simple - given a YouTube video link, use GPT to:
 
--   Perform sentiment analysis on whether or not a provided link (e.g "https://www.youtube.com/watch?v=b8b9tR21K8Q") is related to JuJitsu.
--   Download & transcribe the video's audio output to text.
--   Summarize the video transcript via providing a summary and step-by-step breakdown of the technique(s) covered in the video.
+-   Perform sentiment analysis on whether or not the provided YouTubve link is a JuJitsu instructional video.
+-   Download the video's audio ouput into a text transcript.
+-   Summarize the text transcript into a step-by-step breakdown of the technique(s) covered in the video.
 
-When I had finished my application which I called GrappleGenius, I learned some valuable lessons along the way, specifically aroud the topic of prompt engineering vs fine-tuning. The goal of this post is to dive into the difference between these two forms of output modification, as well as provide some techniques for evaluating the performance of a fine-tuned model vs a prompt engineered one relative to a specific task & dataset. Let's get started!
+The finished application, which I called <a href="https://www.grapplegenius.com" target="_blank" ref="noreferrer">GrappleGenius</a>, was fun to build, but I learned some valuable lessons along the way, specifically aroud the topic of prompt engineering vs fine-tuning. The goal of this post is to dive into the difference between these two forms of output modification, as well as provide some techniques for evaluating the performance of a fine-tuned model vs a prompt engineered one relative to a specific task & dataset. Let's get started!
 
 ### What is Prompt Engineering?
 
-Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, ect) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the neural network itself.
+Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, ect) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the underlying neural network itself.
 
 I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into carefully formatted JSON.
 
-For example, below is the system prompt I prompt engineered to perform sentiment analysis:
+Below is the system role I prompt engineered to perform the sentiment analysis:
 
 ```python
 system_role = "You are a helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructionial videos. I only want you to give 'True' or 'False' answers with no additional information."
 ```
 
-As a rule thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning due to the technical overhead invovled in the later approach.
+As a rule thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning, due to the technical overhead invovled in the later approach.
 
 ### What is Fine-Tuning?
 
-Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the neural network to have a more nuanced understanding of the provided dataset, which can imporve performance by producing faster and more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification, interactive customer support chatbots, and sentiment analysis.
+Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the underlying neural network to have a more nuanced understanding of the provided dataset, which can imporve performance by producing faster and more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification and customer support chatbots.
 
-For GrappleGenius, fine-tuning became a neccesary step if I wanted my application to correctly classify Jujitsu videos, because ChatGPT didn't natively have a deep enough of understanding of YouTube video titles that would constitute a `True` or `False` class, leading to inconsistent results. I observed many instances during my during QA process where the same video titles would sometimes pass validation, while other times not.
+For GrappleGenius, fine-tuning became a neccesary step if I wanted my application to correctly classify YoutTube videos as JuJitsu intructionals or not, because the base GPT model didn't natively have a deep enough of understanding of the language and syntax people used in naming their YouTube vidoes to accurately and confidently give an answer each time.
 
 For the purposes of this blog post, we are going to discuss how to fine-tune OpenAI's `gpt-3.5-turbo` model. Let's get into it!
 
@@ -61,13 +61,14 @@ client = OpenAI(api_key=API_KEY)
 
 ### 2. Helper Methods
 
-Next, we are going to write a few helper methods for the purposes of creating our dataset and performing the actual sentiment analysis on that data. You can see my explanations of what each function is designed to do in the code comments:
+Next, we are going to write a few helper methods for the purposes of creating our dataset and performing sentiment analysis on the data we collect. You can see my explanations of what each function is designed to do in the code comments:
 
 ```python
 def yt_get_titles(query):
     '''
-    This purposed of this function is to retrieve the top 10 results from the YouTube Search API
-    for every query given as an argument.
+    1. Perform a search on YouTube for provided 'query' and return top 10 results.
+    2. For each of the 10 titles returned, sanitize the outputs.
+    3. Return all 10 santized titles in a list.
     '''
     titles = []
 
@@ -84,10 +85,9 @@ def yt_get_titles(query):
 
 def yt_query_search_terms(search_terms, all_titles=[]):
     '''
-    This functions purpose is to:
-        1. Iterate over every search term in the provided search term list.
-        2. For each term, grab the top 10 results from the 'get_titles' function.
-        3. Append them to the output 'all_titles' array and return once every term has been queried.
+    1. Iterate over every search term in the provided search term list.
+    2. For each term, grab the top 10 results from the 'get_titles' function.
+    3. Append them to the output 'all_titles' array and return once every term has been queried.
     '''
     current_query = search_terms.pop()
     titles = get_titles(current_query)
@@ -100,6 +100,11 @@ def yt_query_search_terms(search_terms, all_titles=[]):
         return all_titles
 
 def openai_perform_request(messages, model="gpt-3.5-turbo", validation=False):
+    '''
+    1. For each user prompt in the 'messages' list, return GTP's response.
+    2. If 'validation' is off, create 'assistant' dictionary with GPT's response as the 'content', and append to the original message. After iterating through each message, return original 'messages' list.
+    3. If 'validation' is on, add '1' or '0' to the predictions list depending on if response is 'True' or 'False' for use 'print_accuracy_reports' function.
+    '''
     print("Getting responses. This may take a few minutes...")
     predictions = []
 
@@ -123,6 +128,10 @@ def openai_perform_request(messages, model="gpt-3.5-turbo", validation=False):
     return messages if validation == False else predictions
 
 def print_accuracy_reports(predictions, labels):
+    '''
+    1. Create sklearn's confusion matrix to evalute the accuracy of the classification task of the predictions against test labels.
+    2. Create sklearn's classification report to measure the precision, recall, and f1 scores of the predictions against test lables.
+    '''
     print("Confusion Matrix:")
     print("")
     print(confusion_matrix(labels, predictions))
@@ -136,7 +145,7 @@ def print_accuracy_reports(predictions, labels):
 
 Now, let's create our dataset set using the helper methods we wrote above.
 
-It's always a good idea to diversify the samples in your dataset in order to make the tuning of the model more powerful. For GrappleGenius, that meant I needed a collection of both video titles that I wanted it to classify as `True`, and video titles that I wanted it to classify as `False`. I've added comments for which search terms I roughly expected to fall into each category. The output of our `yt_query_search_terms` function should return a result of 150 search video titles.
+It's always a good idea to diversify the samples in your dataset in order to make the training or tuning of a given model more powerful and dynamic. For GrappleGenius, that meant I needed a mix of video titles that I wanted it to classify as `True`, and video titles I wanted it to classify as `False`. I've added comments for which search terms I expected to fall into each category. The output of our `yt_query_search_terms` function will return a result of 150 search video titles.
 
 ```python
 # Initialize list of search terms and array of video titles.
@@ -163,9 +172,9 @@ video_titles = yt_query_search_terms(search_terms)
 
 ### 4. Label, Preprocess and Split Data into Test & Training Sets
 
-Next is arguably the most tedious part of this process - labeling our data. There are many curataed datasets that can be found online with pre-labled outputs that doesn't need to be validated, but given we are creating a dataset from scratch, this is a step we will need peform ourselves. To help with this task and instead of labeling all 150 examples we've collected by hand, we can use ChatGPT to do a quick first pass and then just valdiate the results of it's output.
+Next is arguably the most tedious part of this process - labeling our data. There are many curataed datasets that can be found online with pre-labled outputs that don't need to be validated, but given we are creating a dataset from scratch, this is a step we will need peform ourselves. To help with this task and instead of labeling all 150 examples we've collected by hand, we can use ChatGPT to do a quick first pass and then just valdiate the results of it's output.
 
-To do this, we first give ChatGPT a system role or "prompt" for how we want it to behave, and then we provide it with the content we want it to evaluate. For more information on the input format ChatGPT expects to it's API, check out their <a href="https://platform.openai.com/docs/guides/fine-tuning/preparing-your-dataset" target="_blank" ref="noreferrer" >official documentation</a>.
+To do this, we first give ChatGPT a system role or "prompt" for how we want it to behave, and then we provide it with the content we want it to evaluate. For more information on the API input format ChatGPT expects, check out their <a href="https://platform.openai.com/docs/guides/fine-tuning/preparing-your-dataset" target="_blank" ref="noreferrer" >official documentation</a>.
 
 ```python
 data = [];
@@ -184,7 +193,7 @@ for video in video_titles:
 data = openai_perform_request(data)
 ```
 
-Next up, we will split our dataset into training & test sets using an 80/20 split and save them to local files. The training data is what we will use to perform the fine-tuning, while the test data is what we will use to measure the improvement of performance relative to the baseline. Given we have 150 total instances in our dataset, that means our training set will include 120 examples, while our test set will include 30 examples.
+Next, we will divide our dataset into training & test sets using an 80/20 split, and save them to local files. The training data is what we will use to perform the fine-tuning, while the test data is what we will use to measure the improvement of performance relative to the baseline. Given we have 150 total instances in our dataset, that means our training set will include 120 examples, while our test set will include 30 examples.
 
 ```python
 import random
@@ -323,4 +332,4 @@ weighted avg       0.77      0.67      0.69        30
 
 Amazing! Using only 120 training examples, the **fine-tuned model (~90% accuracy)** is observing an almost **~13% increase in performance** compared to the **prompt engineered model (~77% accuaracy)** on the same test set of data! With an even a larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
 
-### Conclusion
+If you're int
