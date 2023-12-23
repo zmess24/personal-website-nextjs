@@ -1,36 +1,36 @@
 ---
-title: "Measuring improvment of a fine-tuned LLM"
+title: "How to measure performance of a fine-tuned LLM"
 description: "Prompt engineering vs fine-tuning..."
 tags: ["Coding"]
 date: "12/27/2023"
 link: "/posts/fine-tuning-performance"
 ---
 
-Like many developers now-a-days, I have been playing around a lot recently with the LLM ecosystem and decided to build an experimental application dedicated to leveraging these powerful technologies in a fun but intuitive way. As a JuJitsu pracitionar, the goal of my application was simple - given a YouTube video link, use an LLM to:
+Like many developers now-a-days, I have been playing around a lot recently in the large language model (LLM) ecosystem and I decided to build an experimental application that leverages an LLM in a fun but intuitive way. As a JuJitsu pracitionar, the goal of my application was simple - given a YouTube video link, use an LLM to:
 
--   Perform sentiment analysis on whether or not the provided link (e.g "https://www.youtube.com/watch?v=b8b9tR21K8Q") was related to JuJitsu.
+-   Perform sentiment analysis on whether or not a provided link (e.g "https://www.youtube.com/watch?v=b8b9tR21K8Q") is related to JuJitsu.
 -   Download & transcribe the video's audio output to text.
--   Summarize the video transcript by providing a summary and step-by-step breakdown of the techniques covered in the video that user's of my application could refer back to.
+-   Summarize the video transcript via providing a summary and step-by-step breakdown of the technique(s) covered in the video.
 
-While I succeeded in building this application (which I called GrappleGenius), I learned some valuable lessons along the way, specifically aroud the topic of prompt engineering vs fine-tuning. The goal of this post is to dive into the difference between these two forms of output modification, as well as provide some methods for evaluating the performance of a fine-tuned model vs a prompt engineered one relative to a specific task & dataset. Let's get started!
+When I had finished my application which I called GrappleGenius, I learned some valuable lessons along the way, specifically aroud the topic of prompt engineering vs fine-tuning. The goal of this post is to dive into the difference between these two forms of output modification, as well as provide some techniques for evaluating the performance of a fine-tuned model vs a prompt engineered one relative to a specific task & dataset. Let's get started!
 
 ### What is Prompt Engineering?
 
 Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, ect) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the neural network itself.
 
-In GrappleGenius, I used prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into consistently formatted JSON so they they could be consumed by my front end.
+In GrappleGenius, I used prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into carefully formatted JSON.
 
 For example, below is the system prompt I used for performing sentiment analysis in GrappleGenius:
 
 ```python
-system_role = "You are helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructionial videos. I only want you to give 'True' or 'False' answers with no additional information."
+system_role = "You are a helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructionial videos. I only want you to give 'True' or 'False' answers with no additional information."
 ```
 
-As a rule thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning due to the technical overhead invovled in the later.
+As a rule thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning due to the technical overhead invovled in the later approach.
 
 ### What is Fine-Tuning?
 
-Fine-tuning refers to the process of using additional data to further train a pretrained LLM by 'tuning' the weights of the neural network to have a more nuanced understanding of the provided dataset, which can imporve performance by producing faster and more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification, interactive customer support chatbots, and sentiment analysis.
+Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the neural network to have a more nuanced understanding of the provided dataset, which can imporve performance by producing faster and more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification, interactive customer support chatbots, and sentiment analysis.
 
 For GrappleGenius, fine-tuning became a neccesary step if I wanted my application to correctly classify Jujitsu videos, because ChatGPT didn't natively have a deep enough of understanding of YouTube video titles that would constitute a `True` or `False` class, leading to inconsistent results. I observed many instances during my during QA process where the same video titles would sometimes pass validation, while other times not.
 
