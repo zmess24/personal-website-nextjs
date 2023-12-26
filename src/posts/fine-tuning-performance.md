@@ -6,41 +6,41 @@ date: "12/27/2023"
 link: "/posts/fine-tuning-performance"
 ---
 
-I have been playing around a lot recently with different LLM models, and to test my knoweldge, I decided to build a proof-of-concept application that leverages an LLM in a fun, focused, but intuitive way using OpenAI's API. As a JuJitsu pracitionar who is constantly writing down techniques I watch into the notes section of my phone, the objective of my project was simple - given a YouTube video link, use GPT to:
+I have been playing around a lot recently with different LLM models, and to test my knowledge, I decided to build a proof-of-concept application that leverages an LLM in a fun, focused, but intuitive way using OpenAI's ChatGPT API. As a JuJitsu practitioner who constantly records techniques I watch on YouTubbe into the notes section of my phone, the objective of my project was simple - given a YouTube video link, use ChatGPT to:
 
--   Perform sentiment analysis on whether or not the provided YouTubve link is a JuJitsu instructional video.
--   Download the video's audio ouput into a text transcript.
+-   Perform sentiment analysis on whether or not the provided YouTube link is a JuJitsu instructional video.
+-   Download the video's audio output into a text transcript.
 -   Summarize the text transcript into a step-by-step breakdown of the technique(s) covered in the video.
 
-The finished application, which I called <a href="https://www.grapplegenius.com" target="_blank" ref="noreferrer">GrappleGenius</a>, was fun to build, but I learned some valuable lessons along the way, specifically aroud the topic of prompt engineering vs fine-tuning. The goal of this post is to dive into the difference between these two forms of output modification, as well as provide some techniques for evaluating the performance of a fine-tuned model vs a prompt engineered one relative to a specific task & dataset. Let's get started!
+The finished application, which I called <a href="https://www.grapplegenius.com" target="_blank" ref="noreferrer">GrappleGenius</a>, was fun to build, but I learned some valuable lessons along the way, specifically around the topic of prompt engineering vs fine-tuning. The goal of this post is to dive into the difference between these two forms of output modification, as well as provide some techniques for evaluating the performance of a fine-tuned model vs a prompt engineered one relative to a specific task & dataset. Let's get started!
 
-### What is Prompt Engineering?
+### But First, What is Prompt Engineering?
 
-Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, ect) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the underlying neural network itself.
+Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, etc) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the underlying neural network itself.
 
-I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into carefully formatted JSON.
+For GrappleGenius, I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into formatted JSON that could be consumed by my front-end.
 
 Below is the system role I prompt engineered to perform the sentiment analysis:
 
 ```python
-system_role = "You are a helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructionial videos. I only want you to give 'True' or 'False' answers with no additional information."
+system_role = "You are a helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructional videos. I only want you to give 'True' or 'False' answers with no additional information."
 ```
 
-As a rule thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning, due to the technical overhead invovled in the later approach.
+As a rule of thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning, due to the technical overhead involved in the later approach.
 
 ### What is Fine-Tuning?
 
-Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the underlying neural network to have a more nuanced understanding of the provided dataset, which can imporve performance by producing faster and more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification and customer support chatbots.
+Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the underlying neural network to have a more nuanced understanding of the provided dataset, which can improve performance by producing more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification and customer support chatbots.
 
-For GrappleGenius, fine-tuning became a neccesary step if I wanted my application to correctly classify YoutTube videos as JuJitsu intructionals or not, because the base GPT model didn't natively have a deep enough of understanding of the language and syntax people used in naming their YouTube vidoes to accurately and confidently give an answer each time.
+For GrappleGenius, fine-tuning became a necessary step if I wanted my ChatGPT to correctly classify YoutTube videos as JuJitsu intructionals or not, because the base model didn't natively have a deep enough of understanding of the language and syntax of YouTube vidoes titles to accurately and confidently give an answer each time.
 
-For the purposes of this blog post, we are going to discuss how to fine-tune OpenAI's `gpt-3.5-turbo` model. Let's get into it!
+For the purposes of this blog post, we are going to discuss how to fine-tune OpenAI's `gpt-3.5-turbo` model.
 
 ### 1. Fine-Tuning Setup
 
-First, we need to perform some initial setup by importing a few libraries, most importantly the <a href="https://platform.openai.com/docs/overview" target="_blank" ref="noreferrer">OpenAI API client</a> (which we will use to perform the sentiment analysis), and the official <a href="https://developers.google.com/youtube/v3" target="_blank" ref="noreferrer">YouTube API</a> (which we will use to create our dataset).
+First, we need to perform some initial setup by importing a few libraries. We'll start with the most important, the <a href="https://platform.openai.com/docs/overview" target="_blank" ref="noreferrer">OpenAI API client</a>, which we will use to perform the sentiment analysis. Then we'll import the official <a href="https://developers.google.com/youtube/v3" target="_blank" ref="noreferrer">YouTube API</a>, which we will use to create our dataset.
 
-Please note that if you are looking to follow along, you will need to setup developer accounts with both platforms and download your API keys into a `.env` file so that they can be safely imported. You should never explicitly write out your API keys in plain text in a location that is publicly accessible.
+Please note that if you are looking to follow along, you will need to set up developer accounts with both platforms and download your API keys into a `.env` file so that they can be safely imported. You should never explicitly write out your API keys in plain text in a location that is publicly accessible.
 
 ```python
 import os
@@ -145,7 +145,7 @@ def print_accuracy_reports(predictions, labels):
 
 Now, let's create our dataset set using the helper methods we wrote above.
 
-It's always a good idea to diversify the samples in your dataset in order to make the training or tuning of a given model more powerful and dynamic. For GrappleGenius, that meant I needed a mix of video titles that I wanted it to classify as `True`, and video titles I wanted it to classify as `False`. I've added comments for which search terms I expected to fall into each category. The output of our `yt_query_search_terms` function will return a result of 150 search video titles.
+It's always a good idea to diversify the samples in your dataset in order to make the training or tuning of a given model more powerful and dynamic. For GrappleGenius, that meant I needed a mix of video titles that I wanted it to classify as `True` or `False`. I've added comments for which search terms I expected to fall into each category. The output of our `yt_query_search_terms` function will return a result of 150 search video titles.
 
 ```python
 # Initialize list of search terms and array of video titles.
@@ -172,7 +172,7 @@ video_titles = yt_query_search_terms(search_terms)
 
 ### 4. Label, Preprocess and Split Data into Test & Training Sets
 
-Next is arguably the most tedious part of this process - labeling our data. There are many curataed datasets that can be found online with pre-labled outputs that don't need to be validated, but given we are creating a dataset from scratch, this is a step we will need peform ourselves. To help with this task and instead of labeling all 150 examples we've collected by hand, we can use ChatGPT to do a quick first pass and then just valdiate the results of it's output.
+Next is arguably the most tedious part of this process - labeling our data. There are many curated datasets that can be found online with pre-labeled outputs that don't need to be validated, but given we are creating a dataset from scratch, this is a step we will need peform ourselves. In lieu of labeling all 150 examples we've collected by hand, we can use ChatGPT to do a quick first pass and then simply validate the results of its output.
 
 To do this, we first give ChatGPT a system role or "prompt" for how we want it to behave, and then we provide it with the content we want it to evaluate. For more information on the API input format ChatGPT expects, check out their <a href="https://platform.openai.com/docs/guides/fine-tuning/preparing-your-dataset" target="_blank" ref="noreferrer" >official documentation</a>.
 
@@ -224,7 +224,7 @@ with open("data/train.jsonl", "w") as file:
         file.write("\n")
 ```
 
-After the data has been downloaded into seperate files (e.g `data/test.json` & `data/train.json`), we can simply lookover the results of the initial sentiment analysis and overwrite the output where needed. And with that, we're ready to fine-tune!
+After the data has been downloaded into separate files (e.g `data/test.json` & `data/train.json`), we can simply lookover the results of the initial sentiment analysis and overwrite the output where needed. And with that, we're ready to fine-tune!
 
 ### 5. Fine-Tune ChatGPT Model
 
@@ -257,7 +257,7 @@ client.fine_tuning.jobs.retrieve("ftjob-[training_job_id]")
 
 ### 6. Validate & Measure Performance of Fine-Tuned Model
 
-Finally, let's validate the performance of our newly created fine-tuned model relative to a model that only uses prompt engineering - the same model we used to initially create our test labels! We will accomplish this by evaluating both models on the test data we previously created after some initial data preperation.
+Finally, let's validate the performance of our newly created fine-tuned model relative to a model that only uses prompt engineering. We will accomplish this by evaluating both models on the test data we previously created after some initial data preparation.
 
 ```python
 # Import our test data from our previously created file
@@ -330,4 +330,10 @@ Classification Report:
 weighted avg       0.77      0.67      0.69        30
 ```
 
-Amazing! Using only 120 training examples, the fine-tuned model is observing an almost **13%** increase in performance compared to the prompt engineered model! With an even a larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
+Amazing! Using only 120 training examples, the fine-tuned model is observing an almost **13%** increase in performance compared to the prompt engineered model! With an even larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
+
+### Conclusion
+
+In conclusion, we've seen how fine-tuning an LLM can lead to some significant increases in performance relative to a baseline model when the situation calls for it. While this example was relatively simple in nature, the framework used can be applied to a variety of use cases. I'm looking to building on this with a more complex example that is perhaps a little less straight forward to validate, such as peforming RAG (retrieval augmented generation).
+
+I hope you enjoyed reading this post. I'll catch you next time!
