@@ -19,10 +19,29 @@
 		margin-bottom: 0.5rem;
 	}
 
-	.date {
-		font-size: 0.75rem;
-		line-height: 1rem;
-		// color: silver;
+	.post-header {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+
+		.item {
+			display: flex;
+			flex-direction: row;
+			font-size: 0.9rem;
+			line-height: 1.5rem;
+			margin-top: 1rem;
+			margin-right: 1.25rem;
+
+			svg {
+				width: 0.9rem;
+				height: 1.5rem;
+				margin-right: 0.3rem;
+			}
+
+			.tag {
+				height: 1.5rem !important;
+			}
+		}
 	}
 
 	hr {
@@ -107,6 +126,11 @@
 		section {
 			width: 47%;
 		}
+	}
+
+	.navbar-item {
+		display: flex;
+		align-items: center;
 	}
 }
 

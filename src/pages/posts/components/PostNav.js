@@ -10,7 +10,7 @@ function PostNav() {
 						Home
 					</Link>
 				</section>
-				<section className="navbar-item navbar-brand is-hidden-mobile">
+				<section className="navbar-item navbar-brand">
 					<Link href="/" className="alternate">
 						Zachary Messinger
 					</Link>
