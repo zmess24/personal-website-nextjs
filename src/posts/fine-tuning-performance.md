@@ -18,7 +18,7 @@ The finished application, which I called <a href="https://www.grapplegenius.com"
 
 Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, etc) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the underlying neural network itself.
 
-For GrappleGenius, I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into formatted JSON that could be consumed by my front-end.
+For GrappleGenius, I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into a specific JSON format that could be consumed by my front-end.
 
 Below is the system role I prompt engineered to perform the sentiment analysis:
 
@@ -32,7 +32,7 @@ As a rule of thumb, optimizing the output of an LLM for a specific task through 
 
 Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the underlying neural network to have a more nuanced understanding of the provided dataset, which can improve performance by producing more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification and customer support chatbots.
 
-For GrappleGenius, fine-tuning became a necessary step if I wanted my ChatGPT to correctly classify YoutTube videos as JuJitsu intructionals or not, because the base model didn't natively have a deep enough of understanding of the language and syntax of YouTube vidoes titles to accurately and confidently give an answer each time.
+For GrappleGenius, fine-tuning became a necessary step if I wanted ChatGPT to correctly classify YoutTube videos as JuJitsu intructionals or not, because the base model didn't natively have a deep enough of understanding of the language and syntax of YouTube vidoes titles to give an accurate answer each time.
 
 For the purposes of this blog post, we are going to discuss how to fine-tune OpenAI's `gpt-3.5-turbo` model.
 
@@ -85,7 +85,7 @@ def yt_get_titles(query):
 
 def yt_query_search_terms(search_terms, all_titles=[]):
     '''
-    1. Iterate over every search term in the provided search term list.
+    1. Accepts a queue of search terms, and iterates over each term 1 by 1.
     2. For each term, grab the top 10 results from the 'get_titles' function.
     3. Append them to the output 'all_titles' array and return once every term has been queried.
     '''
@@ -334,6 +334,6 @@ Amazing! Using only 120 training examples, the fine-tuned model is observing an 
 
 ### Conclusion
 
-In conclusion, we've seen how fine-tuning an LLM can lead to some significant increases in performance relative to a baseline model when the situation calls for it. While this example was relatively simple in nature, the framework used can be applied to a variety of use cases. I'm looking to building on this with a more complex example that is perhaps a little less straight forward to validate, such as peforming RAG (retrieval augmented generation).
+In conclusion, we've seen how fine-tuning an LLM can lead to some significant increases in performance when the situation calls for it, and shile this example was relatively simple, the framework I used can still be applied to a variety of tasks. I'm looking to building on this experience with a more complex example that is perhaps a little less straight forward to validate in this manner, such as peforming RAG (retrieval augmented generation).
 
 I hope you enjoyed reading this post. I'll catch you next time!
