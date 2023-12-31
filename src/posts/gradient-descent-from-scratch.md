@@ -1,12 +1,12 @@
 ---
-title: "How to measure performance of a fine-tuned LLM"
-description: "Prompt engineering vs fine-tuning..."
-tags: ["Coding"]
+title: "Implementing linear regression from scratch"
+description: "I have been playing around..."
+tags: ["Math"]
 date: "12/27/2023"
-link: "/posts/fine-tuning-performance"
+link: "/posts/gradient-descent-from-scatch"
 ---
 
-I have been playing around a lot recently with different LLM models, and to test my knowledge, I decided to build a proof-of-concept application that leverages an LLM in a fun, focused, but intuitive way using OpenAI's ChatGPT API. As a JuJitsu practitioner who constantly records techniques I watch on YouTube into the notes section of my phone, the objective of my project was simple - given a YouTube video link, use ChatGPT to:
+I have been playing around a lot recently with different LLM models, and to test my knowledge, I decided to build a proof-of-concept application that leverages an LLM in a fun, focused, but intuitive way using OpenAI's ChatGPT API. As a JuJitsu practitioner who constantly records techniques I watch on YouTubbe into the notes section of my phone, the objective of my project was simple - given a YouTube video link, use ChatGPT to:
 
 -   Perform sentiment analysis on whether or not the provided YouTube link is a JuJitsu instructional video.
 -   Download the video's audio output into a text transcript.
@@ -16,7 +16,7 @@ The finished application, which I called <a href="https://www.grapplegenius.com"
 
 ### But First, What is Prompt Engineering?
 
-Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with a LLM (like ChatGPT, Claude, Gemini, etc) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the underlying neural network itself.
+Prompt engineering is a process in which specific and carefully structured prompts are crafted to effectively communicate with an LLM (like ChatGPT, Claude, Gemini, etc) in a way that guides the model towards producing a desired output. The goal of prompt engineering is to maximize the accuracy and relevance of the LLM's responses without changing the actual weights of the underlying neural network itself.
 
 For GrappleGenius, I leveraged prompt engineering to perform sentiment analysis on the video titles I provided to determine if they were related to JuJitsu or not, and also for summarizing the output of the video transcripts into a specific JSON format that could be consumed by my front-end.
 
@@ -32,7 +32,7 @@ As a rule of thumb, optimizing the output of an LLM for a specific task through 
 
 Fine-tuning refers to the process of using additional data to further train an LLM by 'tuning' the weights of the underlying neural network to have a more nuanced understanding of the provided dataset, which can improve performance by producing more relevant results. Fine-tuning is often useful for business specific tasks that require domain experience, such as text classification and customer support chatbots.
 
-For GrappleGenius, fine-tuning became a necessary step if I wanted ChatGPT to accurately classify YoutTube videos as JuJitsu intructionals or not, because the base model didn't natively have a deep enough of understanding of the language and syntax of YouTube vidoes titles to provide confident answers.
+For GrappleGenius, fine-tuning became a necessary step if I wanted ChatGPT to correctly classify YoutTube videos as JuJitsu intructionals or not, because the base model didn't natively have a deep enough of understanding of the language and syntax of YouTube vidoes titles to give an accurate answer each time.
 
 For the purposes of this blog post, we are going to discuss how to fine-tune OpenAI's `gpt-3.5-turbo` model.
 
@@ -61,7 +61,7 @@ client = OpenAI(api_key=API_KEY)
 
 ### 2. Helper Methods
 
-Next, we are going to write a few helper methods for the purposes of creating our dataset and performing sentiment analysis on it. You can see my explanations of what each function is designed to do in the code comments:
+Next, we are going to write a few helper methods for the purposes of creating our dataset and performing sentiment analysis on the data we collect. You can see my explanations of what each function is designed to do in the code comments:
 
 ```python
 def yt_get_titles(query):
@@ -145,7 +145,7 @@ def print_accuracy_reports(predictions, labels):
 
 Now, let's create our dataset set using the helper methods we wrote above.
 
-It's always a good idea to diversify the samples in your dataset in order to make the training or tuning of a model more powerful and dynamic. For GrappleGenius, that meant I needed a mix of video titles that I wanted it to classify as `True` or `False`. I've added comments for which search terms I expected to fall into each category. The output of our `yt_query_search_terms` function will return a result of 150 search video titles.
+It's always a good idea to diversify the samples in your dataset in order to make the training or tuning of a given model more powerful and dynamic. For GrappleGenius, that meant I needed a mix of video titles that I wanted it to classify as `True` or `False`. I've added comments for which search terms I expected to fall into each category. The output of our `yt_query_search_terms` function will return a result of 150 search video titles.
 
 ```python
 # Initialize list of search terms and array of video titles.
@@ -330,10 +330,10 @@ Classification Report:
 weighted avg       0.77      0.67      0.69        30
 ```
 
-Amazing! Using only 120 training examples, the fine-tuned model is observing an almost ~13% increase in performance compared to the prompt engineered model! With an even larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
+Amazing! Using only 120 training examples, the fine-tuned model is observing an almost **13%** increase in performance compared to the prompt engineered model! With an even larger and more diverse set of training data, it's probable to assume that we could boost performance even higher.
 
 ### Conclusion
 
-In conclusion, we've seen how fine-tuning a LLM can lead to some significant increases in performance when the situation calls for it, and while this was a simple example that was easy to validate, the framework I used can be scaled up to a variety of use cases. I'm excited to build on this experience by working on a more complex task that is less straight forward to measure, such as peforming RAG (retrieval augmented generation) on a collection of provided documents.
+In conclusion, we've seen how fine-tuning an LLM can lead to some significant increases in performance when the situation calls for it, and shile this example was relatively simple, the framework I used can still be applied to a variety of tasks. I'm looking to building on this experience with a more complex example that is perhaps a little less straight forward to validate in this manner, such as peforming RAG (retrieval augmented generation).
 
 I hope you enjoyed reading this post. I'll catch you next time!
