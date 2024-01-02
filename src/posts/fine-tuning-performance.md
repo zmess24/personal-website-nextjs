@@ -172,7 +172,7 @@ video_titles = yt_query_search_terms(search_terms)
 
 ### 4. Label, Preprocess and Split Data into Test & Training Sets
 
-Next is arguably the most tedious part of this process - labeling our data. There are many curated datasets that can be found online with pre-labeled outputs that don't need to be validated, but given we are creating a dataset from scratch, this is a step we will need peform ourselves. In lieu of labeling all 150 examples we've collected by hand, we can use ChatGPT to do a quick first pass and then simply validate the results of its output.
+Next is arguably the most tedious part of this process - labeling our data. There are many curated datasets that can be found online with pre-labeled outputs that don't need to be validated, but given we are creating a dataset from scratch, this is a step we will need perform ourselves. In lieu of labeling all 150 examples we've collected by hand, we can use ChatGPT to do a quick first pass and then simply validate the results of its output.
 
 To do this, we first give ChatGPT a system role or "prompt" for how we want it to behave, and then we provide it with the content we want it to evaluate. For more information on the API input format ChatGPT expects, check out their <a href="https://platform.openai.com/docs/guides/fine-tuning/preparing-your-dataset" target="_blank" ref="noreferrer" >official documentation</a>.
 
