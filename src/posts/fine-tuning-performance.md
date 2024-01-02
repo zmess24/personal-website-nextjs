@@ -26,7 +26,7 @@ Below is the system role I prompt engineered to perform the sentiment analysis:
 system_role = "You are a helpful sentiment analysis assistant whose sole purpose is to determine if the provided YouTube video titles are Brazilian Ju-Jitsu, Judo, or Wrestling instructional videos. I only want you to give 'True' or 'False' answers with no additional information."
 ```
 
-As a rule of thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning, due to the technical overhead involved in the later approach.
+As a rule of thumb, optimizing the output of an LLM for a specific task through prompt engineering is generally considered a recommended first approach before resorting to fine-tuning, due to the technical overhead involved in the later.
 
 ### What is Fine-Tuning?
 
