@@ -7,12 +7,13 @@ import Video from "@/components/Video";
 import Head from "next/head";
 import { getSortedProjectsData } from "../lib/projects";
 import { getSortedPostsData } from "../lib/posts";
+import { SwishjamProvider } from "@swishjam/react";
+import SwishJam from "@/components/SwishJam";
 
 export async function getStaticProps() {
 	const projects = getSortedProjectsData();
 	const posts = getSortedPostsData();
 
-	console.log("POSTS", posts);
 	return {
 		props: {
 			projects,
@@ -34,17 +35,21 @@ export default function Home({ projects, posts }) {
 		setDropDownState(!dropDownState);
 	};
 	return (
-		<main id="container">
+		<>
 			<Head>
 				<title>zacmessinger.com</title>
 			</Head>
-			<Video />
-			<div className="wrapper">
-				<Header dropDownState={dropDownState} handleClick={handleToggle} />
-				<Dropdown dropDownState={dropDownState} data={dropDownData} handleClick={handleToggle} />
-				<section className="banner"></section>
-				<Footer />
-			</div>
-		</main>
+			<SwishJam>
+				<main id="container">
+					<Video />
+					<div className="wrapper">
+						<Header dropDownState={dropDownState} handleClick={handleToggle} />
+						<Dropdown dropDownState={dropDownState} data={dropDownData} handleClick={handleToggle} />
+						<section className="banner"></section>
+						<Footer />
+					</div>
+				</main>
+			</SwishJam>
+		</>
 	);
 }

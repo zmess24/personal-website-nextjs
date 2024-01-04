@@ -3,7 +3,6 @@ import path from "path";
 import matter from "gray-matter";
 
 const projectsDirectory = path.join(process.cwd(), "src/projects");
-console.log("Projects Directory:", projectsDirectory);
 
 export function getSortedProjectsData() {
 	// Get file names under /posts

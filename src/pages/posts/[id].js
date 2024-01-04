@@ -7,12 +7,13 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { faTags } from "@fortawesome/free-solid-svg-icons";
+import SwishJam from "@/components/SwishJam";
 
 export default function Post({ postData }) {
 	let minutes = Math.round(postData.contentHtml.split(" ").length / 400);
 
 	return (
-		<main className="post-wrapper">
+		<>
 			<Head>
 				<title>{postData.title}</title>
 				<link
@@ -23,31 +24,35 @@ export default function Post({ postData }) {
 					referrerpolicy="no-referrer"
 				/>
 			</Head>
-			<PostNav />
-			<div className="post-container">
-				<article>
-					<section>
-						<h1>{postData.title}</h1>
-						<div className="post-header">
-							<span className="item">
-								<FontAwesomeIcon size="sm" icon={faCalendar} />
-								{moment(postData.date).format("MMM DD YYYY")}
-							</span>
-							<span className="item">
-								<FontAwesomeIcon size="lg" icon={faClock} />
-								{minutes} minute read
-							</span>
-							<span className="item">
-								<FontAwesomeIcon size="lg" icon={faTags} />
-								<span className="tag is-warning is-light">{postData.tags[0]}</span>
-							</span>
-						</div>
-					</section>
-					<hr />
-					<div dangerouslySetInnerHTML={{ __html: postData.contentHtml }}></div>
-				</article>
-			</div>
-		</main>
+			<SwishJam>
+				<main className="post-wrapper">
+					<PostNav />
+					<div className="post-container">
+						<article>
+							<section>
+								<h1>{postData.title}</h1>
+								<div className="post-header">
+									<span className="item">
+										<FontAwesomeIcon size="sm" icon={faCalendar} />
+										{moment(postData.date).format("MMM DD YYYY")}
+									</span>
+									<span className="item">
+										<FontAwesomeIcon size="lg" icon={faClock} />
+										{minutes} minute read
+									</span>
+									<span className="item">
+										<FontAwesomeIcon size="lg" icon={faTags} />
+										<span className="tag is-warning is-light">{postData.tags[0]}</span>
+									</span>
+								</div>
+							</section>
+							<hr />
+							<div dangerouslySetInnerHTML={{ __html: postData.contentHtml }}></div>
+						</article>
+					</div>
+				</main>
+			</SwishJam>
+		</>
 	);
 }
 
