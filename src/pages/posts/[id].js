@@ -20,8 +20,8 @@ export default function Post({ postData }) {
 					rel="stylesheet"
 					href="https://cdnjs.cloudflare.com/ajax/libs/prism-themes/1.9.0/prism-coldark-dark.min.css"
 					integrity="sha512-UE88w575S5hQlj3QhY249ZKOe9noZYPtmKL6DwZnKQtTFRCw2dkRfUdp6GwxeV/mig7Q9G7H3vcX8ETVRDRrTg=="
-					crossorigin="anonymous"
-					referrerpolicy="no-referrer"
+					crossOrigin="anonymous"
+					referrerPolicy="no-referrer"
 				/>
 			</Head>
 			<SwishJam>
