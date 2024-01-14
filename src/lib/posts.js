@@ -8,6 +8,7 @@ import rehypeKatex from "rehype-katex";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
+import remarkImages from "remark-images";
 import prism from "remark-prism";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
@@ -53,7 +54,7 @@ export async function getPostData(id) {
 	// const processedContent = await remark().use(html, { sanitize: false }).use(prism).use(remarkMath).use(rehypeKatex).process(matterResult.content);
 	const processedContent = await remark()
 		.use(remarkParse)
-
+		.use(remarkImages)
 		// .use(html, { sanitize: false })
 		.use(prism)
 		.use(remarkMath)
