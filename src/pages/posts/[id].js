@@ -23,6 +23,7 @@ export default function Post({ postData }) {
 					crossOrigin="anonymous"
 					referrerPolicy="no-referrer"
 				/>
+				<link href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" rel="stylesheet" />
 			</Head>
 			<SwishJam>
 				<main className="post-wrapper">

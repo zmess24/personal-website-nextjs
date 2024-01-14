@@ -3,6 +3,11 @@ import html from "remark-html";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
 import prism from "remark-prism";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
@@ -45,7 +50,17 @@ export async function getPostData(id) {
 	const matterResult = matter(fileContents);
 
 	// Use remark to convert markdown into HTML string
-	const processedContent = await remark().use(html, { sanitize: false }).use(prism).process(matterResult.content);
+	// const processedContent = await remark().use(html, { sanitize: false }).use(prism).use(remarkMath).use(rehypeKatex).process(matterResult.content);
+	const processedContent = await remark()
+		.use(remarkParse)
+
+		// .use(html, { sanitize: false })
+		.use(prism)
+		.use(remarkMath)
+		.use(remarkRehype)
+		.use(rehypeKatex)
+		.use(rehypeStringify)
+		.process(matterResult.content);
 	const contentHtml = processedContent.toString();
 
 	// Combine the data with the id and contentHtml
