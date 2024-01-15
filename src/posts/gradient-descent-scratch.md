@@ -1,9 +1,9 @@
 ---
 title: "Gradient Descent from Scratch"
-description: "Prompt engineering vs fine-tuning..."
+description: "Exploring the math behind GD..."
 tags: ["Math"]
 date: "1/17/2023"
-link: "/posts/linear-regression-scratch"
+link: "/posts/gradient-descent-scratch"
 ---
 
 Learning machine learning can sometimes feel like venturing into a wondrous, yet complex rabbit hole of mathematical models and methods. One especially important algorithm that has seemed to pop up everywhere in my ML & DL studies is "Gradient Descent", and although I understood it's significance in helping ML models "learn" optimal parameter values, I didn't exactly understand how it worked - so that's what we'll be covering in this post! We'll code Linear Regression with Gradient Descent step-by-step, incrementally building this algorithm together.
