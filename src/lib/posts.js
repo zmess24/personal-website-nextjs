@@ -1,5 +1,4 @@
 import { remark } from "remark";
-import html from "remark-html";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -9,6 +8,7 @@ import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkImages from "remark-images";
+import remarkGfm from "remark-gfm";
 import prism from "remark-prism";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
@@ -55,7 +55,7 @@ export async function getPostData(id) {
 	const processedContent = await remark()
 		.use(remarkParse)
 		.use(remarkImages)
-		// .use(html, { sanitize: false })
+		.use(remarkGfm)
 		.use(prism)
 		.use(remarkMath)
 		.use(remarkRehype)

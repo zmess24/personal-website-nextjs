@@ -7,7 +7,6 @@ import Video from "@/components/Video";
 import Head from "next/head";
 import { getSortedProjectsData } from "../lib/projects";
 import { getSortedPostsData } from "../lib/posts";
-import { SwishjamProvider } from "@swishjam/react";
 import SwishJam from "@/components/SwishJam";
 
 export async function getStaticProps() {
