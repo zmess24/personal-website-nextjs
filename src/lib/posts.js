@@ -10,6 +10,7 @@ import remarkParse from "remark-parse";
 import remarkImages from "remark-images";
 import remarkGfm from "remark-gfm";
 import prism from "remark-prism";
+import moment from "moment";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
 
@@ -35,7 +36,10 @@ export function getSortedPostsData() {
 	});
 	// Sort posts by date
 	return allPostsData.sort((a, b) => {
-		if (a.date < b.date) {
+		a = moment(a.date);
+		b = moment(b.date);
+		debugger;
+		if (a < b) {
 			return 1;
 		} else {
 			return -1;

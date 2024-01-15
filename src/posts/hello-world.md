@@ -2,7 +2,7 @@
 title: "Hello World! Welcome to my blog"
 description: "The start of a journey..."
 tags: ["Business"]
-date: "12/20/2023"
+date: "12-20-2023"
 link: "/posts/hello-world"
 ---
 

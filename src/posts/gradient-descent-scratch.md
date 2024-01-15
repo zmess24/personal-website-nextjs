@@ -1,8 +1,8 @@
 ---
 title: "Gradient Descent from Scratch"
-description: "Exploring the math behind GD..."
+description: "Exploring the math behind Gradient Descent..."
 tags: ["Math"]
-date: "1/17/2023"
+date: "01-17-2024"
 link: "/posts/gradient-descent-scratch"
 ---
 

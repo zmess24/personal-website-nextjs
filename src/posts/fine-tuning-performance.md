@@ -2,7 +2,7 @@
 title: "How to measure performance of a fine-tuned LLM"
 description: "Prompt engineering vs fine-tuning..."
 tags: ["Coding"]
-date: "12/27/2023"
+date: "12-27-2023"
 link: "/posts/fine-tuning-performance"
 ---
 
