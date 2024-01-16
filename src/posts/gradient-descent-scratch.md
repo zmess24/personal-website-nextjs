@@ -92,7 +92,7 @@ So where do we start? Well, if you recall from your linear algebra classes, a st
 -   $x$ is the input value.
 -   $c$ is the bias term, or where the line should start on the y-intercept.
 
-Given this revelation, it should come as no surprise that the linear regression hypothesis function we need to use to find optimal values for $w$ and $c$ is literally the same exact equation with slightly different notation.
+Given this revelation, it should come as no surprise that the linear regression hypothesis function we will use to find optimal values for $w$ and $c$ is literally the same exact equation with slightly different notation.
 
 $h(x) = θ₀ + θ₁x$
 
@@ -103,7 +103,7 @@ Where:
 -   $θ₁$ or _theta1_, is the slope or gradient of the line.
 -   $x$ is the input value.
 
-And therein lies the mathmatical goal of linear regression - to find optimal values for $θ₀$ and $θ₁$ so that we can create a line of best fit for our dataset. To do that, we will use an optimization algorithm called _Gradient Descent_ in combination with a cost function called the _Mean Squared Error_.
+And therein lies the goal of linear regression - to find optimal values for $θ₀$ and $θ₁$ so that we can create a line of best fit for our dataset. To do that, we will use an optimization algorithm called _Gradient Descent_ in combination with a cost function called the _Mean Squared Error_.
 
 _Before moving forward, it's worth noting that there are a couple ways to solve this linear regression hypothesis, but gradient descent is the most common in the ML / AI space due to its computational efficiency on large datasets. However, it is possible to solve for $θ₀$ and $θ₁$ using straight linear algebra, but that topic is a little bit beyond the scope of this post. Perhaps I'll cover how to do that in a future one, because the math is fun to work through!_
 
@@ -185,13 +185,13 @@ Fantastic! We've calculated an initial cost of $21$ using the Mean Squared Error
 
 With a cost function now in place, we're ready to figure out how to tune our $θ₀$ and $θ₁$ values in order to bring down the total cost of our pricing hypothesis function. We will do so by calculating what is called the "gradient" (mathamtically known as the partial derivative) of our cost function, i.e measuring how small changes in our theta values affect the overall cost of our predictions. This concept of gradients is crucial, so let's go over it in more depth before moving into the actual Gradient Descent formula.
 
-To help us, let's go through an imaginary exercise. Imagine you're a hiker standing on a large hill that has suddenly become incredibly foggy, so you can only see the ground directly in front of you. Due to the changing weather conditions, you decide you need to descend the hill as quickly as possile. Logically speaking, the easiest way to accomplish this would be to look around you in every direction, take a step where the path descends the steepest, and repeat this process until you reach the bottom. The "gradient", in this context, would be your sense of whether the ground underneath your feet slopes up or down with each step you take. In the context of Linear Regression, a gradient is largly the same - it mathmatically guides us in knowing the direction and extent to which we should adjust our theta values to reduce the cost of our predictions.
+To help us, let's think through an imaginary scenario. Imagine you're a hiker standing on a large hill that has suddenly become incredibly foggy, so much so that you can only see the ground directly in front of you. Due to the changing weather conditions, you decide you need to descend the hill as quickly as possile. Logically speaking, the easiest way to do so would be to look around you in every direction, take a step where the path descends the steepest, and repeat this process until you reach the bottom. The "gradient", in this context, would be your sense of whether the ground underneath your feet slopes up or down with each step you take. In the context of Linear Regression, a gradient has largely the same meaning - it mathmatically guides us in knowing the direction and extent to which we should adjust our theta values to reduce the cost of our predictions.
 
 Let's zoom out for a second by looking at the MSE's for a range of potential $θ₁$ values for our linear hypothesis function.
 
 ![](/images/posts/linear-regression-scatch/figure-10.png)
 
-Notice something interesting? As $θ₁$ approaches 3 (which we know to be the best answer), our cost gradually descends until it reaches $0$, and then once $θ₁$ moves past $3$, the cost gradually increases at exactly the same rate. Plotting this out on a graph results in a parabola:
+Notice something interesting? As $θ₁$ approaches 3 (which we know to be the best answer), our cost gradually descends until it reaches $0$, and then once $θ₁$ moves past $3$, the cost gradually increases at exactly the same rate. Plotting this out on a graph results in a parabola.
 
 ```python
 X=[0, 1, 2, 3, 4, 5, 6]
