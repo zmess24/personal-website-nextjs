@@ -273,7 +273,7 @@ Much better! We've decreased our cost from $21$ to $19.09$ by increaasing $θ₁
 
 With that, we've actually just run a single iteration of Gradient Descent! Here is the full formula in its entirety.
 
-$\theta_j := \theta_j - \alpha \frac{1}{m} \sum*{i=1}^{m} (h\_{\theta}(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$
+$\theta_j := \theta_j - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$
 
 The trick to Gradient Descent is to keep re-running it either until a set amount of iterations is reached (which gives it the time it needs to find optimal theta values), or we reach convergence (i.e we've reached the vertex of the cost parabola). The amazing thing about this optimization algorithm is that it will also update all of our potential theta values concurrently, meaning it scales incredibly well with complex datasets. Let's run it one more time using our new $θ₁$ value of $0.14$ to see the power of iteration in action.
 
@@ -349,7 +349,7 @@ create_scatter_plot(x=df["carats_of_gold"], y=df["price_sold"], scale=[0,1.5,0,1
 
 ![](/images/posts/linear-regression-scatch/figure-7.png)
 
-With a robust set data now curated, let's write out our Mean Squared Error and Gradient Descent functions.
+With a robust dataset now curated, let's write out our Mean Squared Error and Gradient Descent functions.
 
 ```python
 # 𝐽(𝜃)=1/2𝑛 ∑𝑛𝑖=1(ℎ𝜃(𝑥𝑖)−𝑦𝑖)2
