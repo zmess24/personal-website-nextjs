@@ -1,6 +1,4 @@
 import * as React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import moment from "moment";
 
