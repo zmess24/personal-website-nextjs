@@ -1,9 +1,9 @@
 ---
-title: "Fun with Linear Algebra and Matricies"
+title: "Fun with Linear Algebra and Matrices"
 description: "Exploring matrix mathmatical operations..."
 tags: ["Math"]
 date: "02-26-2024"
-link: "/posts/fun-with-linear-algebra-and-matricies"
+link: "/posts/fun-with-linear-algebra-and-matrices"
 ---
 
 As you can probably tell by my [last post](https://www.zacmessinger.com/posts/gradient-descent-scratch), I've spent a lot of time recently trying to better understand the core mathematical principles used in machine learning, and to say the least, it's been quite the endeavor. Relearning the fundamentals of Linear Algebra, Calculus, Statistics, & Probability has felt like an intellectual rollercoaster, where every time I've reached the top of a hill, a steep drop into an even more complicated subject matter quickly follows! In the words of my inner voice (which sounds strangely like Master Yoda):
