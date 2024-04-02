@@ -10,7 +10,7 @@ import { faTags } from "@fortawesome/free-solid-svg-icons";
 import SwishJam from "@/components/SwishJam";
 
 export default function Post({ postData }) {
-	let minutes = Math.round(postData.contentHtml.split(" ").length / 700);
+	let minutes = Math.round(postData.contentHtml.split(" ").length / 1000);
 
 	return (
 		<>
