@@ -19,6 +19,8 @@ export async function getStaticProps() {
 			posts,
 		},
 	};
+
+	console.log(posts);
 }
 
 export default function Home({ projects, posts }) {
@@ -33,6 +35,7 @@ export default function Home({ projects, posts }) {
 		}
 		setDropDownState(!dropDownState);
 	};
+
 	return (
 		<>
 			<Head>

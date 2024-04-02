@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Dropdown = ({ dropDownState, data, handleClick }) => {
 	let classNames = dropDownState ? "dropdown show-dropdown" : "dropdown hide-dropdown";
-
+	debugger;
 	return (
 		<main className={classNames}>
 			<nav className="navbar" role="navigation" aria-label="secondary">
