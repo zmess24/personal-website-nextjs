@@ -352,7 +352,7 @@ data_transforms = transforms.Compose([
 ])
 ```
 
-As a final step, let's put it all together now by loading our newly cropped training and test images into fresh DataLoaders.
+As a final step, let's put it all together by loading our newly cropped training and test images into fresh DataLoaders.
 
 ```python
 # Hyperparameter
