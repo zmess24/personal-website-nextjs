@@ -404,7 +404,7 @@ scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, DECAY_MILESTONES)
 
 ### Downloading FaceNet and Freezing Base Layers
 
-We're finally ready for the most fun part of this process - downloading a pre-trained model! As we covered at the beggining of this post, transfer learning is a powerful technique in deep learning where a model developed for one task is reused as the starting point for a new model on a related task. It's especially useful in scenarios where there is a limited amount of training data available forn the target class, such as in our case!
+We're finally ready for the most fun part of this process - downloading a pre-trained model and getting it ready for transfer learning! As we covered at the beggining of this post, transfer learning is a powerful technique in deep learning where a model developed for one task is reused as the starting point for a new model on a related task. It's especially useful in scenarios where there is a limited amount of training data available forn the target class, such as in our case!
 
 As mentioned before, we will be using a popular image classification CNN architecture known as FaceNet to aid us in leveraging transfer learning. FaceNet was developed back in 2015 by the Google Research team, and scored an impressive 99.63% accuracy on the [Labeled Faces in the Wild](https://paperswithcode.com/dataset/lfw) (LFW) dataset, which is a collection roughly 13,300 faces scraped from the web. If you examine the LFW dataset closely, you'll notice that almost all of the images are cropped to the person of interests face, which is why we included image cropping as a part of our data preprocessing pipeline.
 
