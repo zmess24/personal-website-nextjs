@@ -820,7 +820,7 @@ for epoch in range(EPOCHS):
     Train |    13/13   | loss:    0.3963 | fps:  503.1628 | acc:    0.8942
     Valid |     4/4    | loss:    0.9249 | fps:  475.5811 | acc:    0.7266
 
-### 7. Evalute Results
+### Evalute Results
 
 Wow! The training loop's output reveals a steady improvement in our model's accuracy over successive epochs, and is particularly evident when examining the training data accuracy. Initially, after the first epoch, our accuracy on the training data hovered around 46% - however, by the tenth and final epoch, the training accuracy had climbed to approximately 89.4%! It's worth noting that the test data accuracy concluded at around 73%, which is somewhat expected given the test dataset's relatively small size. With a limited test set, each misclassification carries more weight and disproportionately impacts the overall accuracy.
 
@@ -994,7 +994,7 @@ predict_and_plot_image(model, image=img, class_names=class_names)
 
 As [Lebron James would say](https://www.youtube.com/watch?v=e4cZ01fJy0k), "Yeah, yeah, yeah"!
 
-## 9. Conclusion
+### Conclusion
 
 If you've made it to the end of this post, give yourself a pat on the back - you've taken an important step in understanding the power of transfer learning! Thank you for sticking with me through this exploration.
 
@@ -1006,7 +1006,7 @@ And that about wraps up this post! But before I go, if any experienced data scie
 
 I hope you enjoyed reading this post as much as I did it writing it. I'll catch you next time!
 
-## _Appendex: Scraping Images from Google_
+### _Appendex: Scraping Images from Google_
 
 ```python
 # Time & Progress Libraries
