@@ -860,7 +860,7 @@ plt.xlabel('Epochs')
 plt.legend();
 ```
 
-![png](transfer-learning-pytorch_files/transfer-learning-pytorch_44_0.png)
+![png](/images/posts/transfer-learning-pytorch_files/transfer-learning-pytorch_44_0.png)
 
 The loss curve plots demonstrate promising results! We can clearly observe an upward trajectory in mean accuracy coupled with a downward trend in mean loss over successive epochs for both our training and test datasets. These positive indicators suggest our model is effectively learning and generalizing from our player image dataset.
 
