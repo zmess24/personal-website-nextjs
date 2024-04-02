@@ -18,7 +18,8 @@ Without futher ado, let's get right into it! And if you'd like to follow along, 
 
 As always, let's import the libraries we will use for the remainder of this post, and as you'll notice, there are quite a few this time. Instead of going through each one in detail, instead I'll just describe the core ones that we will use to the bulk of the heavy lifting.
 
--   `torch`: Also known as PyTorch, this is a popular open-source machine learning library used for developing and training neural network models. It provides a wide range of tools and libraries for deep learning, and it's known for its flexibility and ease of use. \*`torchvision`: A companion library to PyTorch that provides utilities for working with image data. It includes pre-trained models, datasets, and common image transformations for computer vision tasks.
+-   `torch`: Also known as PyTorch, this is a popular open-source machine learning library used for developing and training neural network models. It provides a wide range of tools and libraries for deep learning, and it's known for its flexibility and ease of use.
+-   `torchvision`: A companion library to PyTorch that provides utilities for working with image data. It includes pre-trained models, datasets, and common image transformations for computer vision tasks.
 -   `matplotlib`: A widely used library for creating static, animated, and interactive visualizations in Python. It provides a variety of plotting functions to make graphs and charts, such as line plots, scatter plots, bar charts, and histograms.
 -   `facenet_pytorch`: A library that provides a PyTorch implementation of the FaceNet model for face detection, recognition, and clustering. It includes pre-trained models and utilities for working with facial recognition tasks.
 
