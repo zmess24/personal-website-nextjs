@@ -290,7 +290,7 @@ Before we can use the MTCNN model for face detection, we need to organize and lo
 -   The [ImageFolder](https://pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html) class provides a convenient way to load image data from a supplied root directory. ImageFolder expects our images to be organized in a specific structure, where each subdirectory in the root directory represents a different image class thereby allowing ImageFodler to automatically assign labels to them. The labels are usually numerical and correspond to the alphabetical order of the class directories.
 -   The [DataLoader](https://pytorch.org/docs/stable/data.html#torch.utils.data.DataLoader) is a seperate utility class that allows us to efficiently load, shuffle, and batch our dataset (e.g our ImageFolder) for training.
 
-A key parameter to call out here is the batch size, which is essentially a way to break up our dataset into smaller blocks of data. Batching is very common used in both ML & DL training, and generally speaking, a larger batch size can lead to more stable and faster convergence but requires more memory. On the other hand, a smaller batch size can help the model escape local minima and generalize better, but it may lead to slower convergence and more variability in the updates. Since I'm using a single GPU (or, in some cases, a CPU in Google Colab), I've chosen a batch size of 32, which is near the lower limit of recommended batch sizes.
+A key parameter to call out here is the batch size, which is essentially a way to break up our dataset into smaller blocks of data. Batching is very commonly used in both ML & DL training, and generally speaking, a larger batch size can lead to more stable and faster convergence but requires more memory. On the other hand, a smaller batch size can help the model escape local minima and generalize better, but it may lead to slower convergence and more variability in the updates. Since I'm using a single GPU (or, in some cases, a CPU in Google Colab), I've chosen a batch size of 32, which is near the lower limit of recommended batch sizes.
 
 This means that for our training dataset of 392 images, we'll have 13 batches, and for our test dataset, we'll have 4.
 
@@ -624,7 +624,7 @@ summary(model=model,
 
 Without stating the obvious, a couple of things immediately jump out:
 
--   Our model has 23,487,754 parameters.
+-   Our model has a lot, a lot of parameters (23,487,754 parameters).
 -   Our model has a lot, a lot of layers.
 
 I plan on convering what many of these layers are doing mathmatically in a future blog post by doing some paper replicating, but for now, I just wanted to provide a visual view of the FaceNet architecture. This is a pretty massive model!
