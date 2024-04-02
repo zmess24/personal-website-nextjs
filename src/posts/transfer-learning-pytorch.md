@@ -719,7 +719,7 @@ def pass_epoch(
 With a basic understanding of how neural networks are trained, let's dive into the actual code we'll be using to perform transfer learning and train our FaceNet model. At a high level, we're going to do the following:
 
 1. We set the number of epochs, which determines how many complete passes through our training dataset the model will undergo. Initially, we'll set this to 10 epochs to gauge model performance without excessive time or computation investment.
-2. For each epoch, we'll leverage transfer learning to fine-tune the pre-trained FaceNet model on our Lakers player image dataset. Although not explicitly stated in the code, this process involves freezing the inner layers of the neural network, which have already learned general face recognition patterns. We'll then update the weights of the output layers to adapt the model to our specific classification task.
+2. For each epoch, we'll leverage transfer learning to fine-tune the weights of the output layer to adapt the model to our specific classification task, leaving the hidden layer weights untouched.
 3. After updating the output layer weights, we'll evaluate the model's performance on our test dataset, consisting of roughly 10 images per Lakers player.
 4. Finally, we'll save the training accuracy, training loss, test accuracy, and test loss into a predefined results dictionary. This will allow us to easily track and analyze how the model's performance trends over time, which we'll dive into in the "Evaluate Performance" section below.
 
