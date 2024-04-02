@@ -1,7 +1,7 @@
 ---
 title: "Transfer Learning with PyTorch"
 description: "Classifying NBA player images..."
-tags: ["Business"]
+tags: ["Coding"]
 date: "04-01-2024"
 link: "/posts/transfer-learning-pytorch"
 ---
