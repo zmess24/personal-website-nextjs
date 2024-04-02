@@ -10,7 +10,7 @@ It's sad to say, but after a month long hiatus, I've officially broken my 2024 g
 
 The topic for this post is going to be my most complex (but hopefully most fun) one yet - using transfer learning to build an image classifier for Los Angeles Laker's players! Transfer learning is a technique that allows us to utilize pre-trained models as a starting point, rather than training a model from scratch. By doing so, we can significantly reduce the computational resources and time required, while still achieving remarkable results.
 
-Transfer learning is particularly useful when dealing with tasks that share similarities with the problem the pre-trained model was originally designed for. In our case, since we're working with image classification (specifcally face detection), we can leverage a model that has been pre-trained on a large dataset of curated images, such as [VGGFace2](https://paperswithcode.com/dataset/vggface2-1).
+Transfer learning is particularly useful when dealing with tasks that share similarities with the problem the pre-trained model was originally designed for. In our case, since we're working with image classification (specifcally face detection), we can leverage a model that has been pre-trained on a large dataset of curated images, such as [FaceNet](https://paperswithcode.com/paper/facenet-a-unified-embedding-for-face).
 
 Without futher ado, let's get right into it! And if you'd like to follow along, [here is the Google Colab notebook](https://github.com/zmess24/personal-website-nextjs/blob/main/src/drafts/transfer-learning-pytorch.ipynb).
 
