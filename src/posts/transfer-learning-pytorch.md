@@ -412,7 +412,7 @@ To start, let's initialize an pre-trained instance of FaceNet by importing it fr
 
 -   `classify=True` signifies that we want to include a final linear layer to the architecture to output class probabilities based on the `num_classes` argument provided to it.
 -   The `num_classes` arguement tells FaceNet how many distinct classes or labels our model should output class probabilities to. In our case, we will have 10 seperate classes mapped to each player in our dataset, meaning we should expect an output of 10 different logits (e.g unnormalized probabilites of an item belonging to a certain class) with each prediction.
--   The `pretrained='vggface2'` argument tells our model to intialize with weights from training on the [VGGFace2](https://paperswithcode.com/dataset/vggface2-1#:~:text=The%20VGGFace2%20dataset%20is%20made,training%20and%20one%20for%20test.) dataset, which is a repository of almost 3.3M face images. Again, if you examine VGGFace2 dataset, all of the images are cropped to the person of interests face. These pre-trained weights are the secret sauce that empower us with the computational and cost savings beneifts of leveraging transfer learning.
+-   The `pretrained='vggface2'` argument tells our model to intialize with weights from training on the [VGGFace2](https://paperswithcode.com/dataset/vggface2-1#:~:text=The%20VGGFace2%20dataset%20is%20made,training%20and%20one%20for%20test.) dataset, which is a repository of almost 3.3M face images. Again, if you examine VGGFace2, all of the images are cropped to the person of interests face. These pre-trained weights are the secret sauce that empower us with the computational and cost savings beneifts of leveraging transfer learning.
 
 ```python
 from facenet_pytorch import InceptionResnetV1
