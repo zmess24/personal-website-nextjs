@@ -12,7 +12,7 @@ The topic for this post is going to be my most complex (but hopefully most fun) 
 
 Transfer learning is particularly useful when dealing with tasks that share similarities with the problem the pre-trained model was originally designed for. In our case, since we're working with image classification (specifcally face detection), we can leverage a model that has been pre-trained on a large dataset of curated images, such as [VGGFace2](https://paperswithcode.com/dataset/vggface2-1).
 
-Without futher ado, let's get right into it!
+Without futher ado, let's get right into it! And if you'd like to follow along, [here is the Google Colab notebook](https://github.com/zmess24/personal-website-nextjs/blob/main/src/drafts/transfer-learning-pytorch.ipynb).
 
 ### Library Imports and Setting Device Agnostic Code
 
