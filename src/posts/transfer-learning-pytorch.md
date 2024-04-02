@@ -998,13 +998,11 @@ As [Lebron James would say](https://www.youtube.com/watch?v=e4cZ01fJy0k), "Yeah,
 
 If you've made it to the end of this post, give yourself a pat on the back - you've taken an important step in understanding the power of transfer learning! Thank you for sticking with me through this exploration.
 
-While the results we achieved are promising, there's still plenty of room for improvement and further experimentation. One clear opportunity is systematic hyperparameter tuning and experiment tracking. Testing different learning rates, optimizers, regularization techniques like dropout, network architectures, training epochs, and dataset sizes could uncover key performance gains. Rarely does the first training run yield the optimal solution.
+While the results we achieved are promising, there's still plenty of room for improvement and further experimentation. One clear opportunity is systematic hyperparameter tuning and experiment tracking - testing different learning rates, optimizers, regularization techniques, network architectures, training epochs, and dataset sizes could uncover key performance gains, since rarely does the first training run yield the optimal solution.
 
 Another aspect worth revisiting is the data preprocessing pipeline, specifically the MTCNN module we used for face cropping. If following along in a notebook of your own, you may have encountered instances where it incorrectly cropped background regions instead of the intended subject, introducing noise that may have bottlenecked our model's accuracy. Enhancing this component could provide a nice uplift.
 
-And that about wraps up this post! But before I go, if any experienced data scientists spot areas for improvement, I'm always eager to expand my knowledge - don't hesitate to reach out!
-
-I hope you enjoyed reading this post as much as I did it writing it. I'll catch you next time!
+That about wraps up this post! I hope you enjoyed reading this post as much as I did it writing it. I'll catch you next time!
 
 ### _Appendex: Scraping Images from Google_
 
