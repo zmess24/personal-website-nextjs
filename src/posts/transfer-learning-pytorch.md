@@ -49,11 +49,6 @@ from typing import Dict, List
 # Scraping
 import requests
 
-# Data Analysis
-import mlxtend
-import pandas as pd
-import random
-
 # Not-Native Google Collab Libraries
 try:
   !pip install facenet_pytorch torchinfo -q
