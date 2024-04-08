@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import moment from "moment";
 
 const projectsDirectory = path.join(process.cwd(), "src/projects");
 
@@ -26,7 +27,10 @@ export function getSortedProjectsData() {
 	});
 	// Sort posts by date
 	return allProjectData.sort((a, b) => {
-		if (a.date < b.date) {
+		a = moment(a.date);
+		b = moment(b.date);
+		debugger;
+		if (a < b) {
 			return 1;
 		} else {
 			return -1;
