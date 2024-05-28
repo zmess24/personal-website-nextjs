@@ -254,7 +254,7 @@ embedding_layer
 Embedding(2072, 10)
 ```
 
-Examing the shape of our embedding layer, we can see that we've initialized a tensor with 2072 vectors, each with 10 dimensions. Further, we can see that each of the dimensions for every vector has been ranomly assigned numerical weights, which will be tuned when we start training our model.
+Examing the shape of our embedding layer, we can see that we've initialized a tensor with 2072 vectors, each with 10 dimensions. Further, we can see that each of the dimensions for every vector has been randomly assigned numerical weights, which will be tuned when we start training our model.
 
 ```python
 for i in range(3):
