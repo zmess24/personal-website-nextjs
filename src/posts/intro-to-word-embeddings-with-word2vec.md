@@ -122,7 +122,7 @@ Before using our newly created dataset to generate training data, let's first wa
 
 Word2Vec leverages the context of words to capture their semantic meanings, with the most critical parameter being the window size. This parameter determines the number of context words considered around a target word, essentially defining the scope of context during training. For example, with a window size of 2, the context for a target word would include the two words preceding it and the two words after it. This local context helps the model learn the relationships and similarities between words based on their surrounding words. The below graphic from [Zafar Ali's Medium article](https://medium.com/@zafaralibagh6/a-simple-word2vec-tutorial-61e64e38a6a1) does a great job of providing an overview of this crucical concept.
 
-<img src="https://miro.medium.com/v2/resize:fit:536/1*vZhxrBkCz-yN_rzZBqSKiA.png"/>
+![png](https://miro.medium.com/v2/resize:fit:536/1*vZhxrBkCz-yN_rzZBqSKiA.png)
 
 As you might guess, the choice of window size significantly impacts the quality and nature of the word embeddings.
 
