@@ -574,9 +574,9 @@ plt.legend()
 
 ![png](/images/posts/word_2_vec_from_scratch_files/word_2_vec_from_scratch_49_2.png)
 
-Our loss history suggests that our model was able to successfully learn and generalize from our text corpus, as we can observe a sharp decrease in total loss with each successive epoch up until about the 40th epoch. It's possible that we could have further reduced the loss by playing around with some of our hyperparameters, but for now, this initial training instance seems promoising.
+Our loss history suggests that our model was able to successfully learn and generalize from our text corpus, as we can observe a sharp decrease in total loss with each successive epoch up until about the 40th epoch. It's possible that we could further reduce the loss by playing around with some of our hyperparameters, but for now, this initial training instance seems promising.
 
-However, a better gauge of whether we were successful in our pursuit might be to actually plug in a few target word and see what context words get returned. Let's try it out by inputting the word "neural" into our Word2Vec model.
+However, a better gauge of whether we were successful in our pursuit might be to actually input a few words, and see what context words get returned. Let's try this out by inputting the word "neural" into our Word2Vec model.
 
 ```python
 import torch.nn.functional as F
