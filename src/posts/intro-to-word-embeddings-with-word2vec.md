@@ -131,7 +131,7 @@ As you might guess, the choice of window size significantly impacts the quality 
 
 Balancing the window size is crucial: too small a window might miss out on essential context, while too large a window might introduce noise by including less relevant words. Thus, selecting an appropriate window size is key to optimizing Word2Vec for specific applications.
 
-So that will be our goal creating our training data - for every word in our corpus, we will try to generate up to 4 training samples based on a fixed window size of 2. For example, if we take the sentence:
+So that will be our goal in creating our training data - for every word in our corpus, we will try to generate up to 4 training samples based on a fixed window size of 2. For example, if we take the sentence:
 
 `Recently, artificial neural networks have been able to surpass many previous approaches in performance`
 
