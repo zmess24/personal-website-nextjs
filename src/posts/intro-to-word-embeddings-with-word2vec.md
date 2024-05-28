@@ -1,5 +1,5 @@
 ---
-title: "Into to Word Embeddings with Word2Vec"
+title: "Intro to Word Embeddings with Word2Vec"
 description: "Creating Word2Vec from scatch..."
 tags: ["Coding"]
 date: "05-27-2024"
