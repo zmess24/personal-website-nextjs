@@ -1,5 +1,5 @@
 ---
-title: "Into to NLP with TF-IDF Vectorization"
+title: "Intro to NLP with TF-IDF Vectorization"
 description: "Relevance Ranking Document Text..."
 tags: ["Coding"]
 date: "04-15-2024"
