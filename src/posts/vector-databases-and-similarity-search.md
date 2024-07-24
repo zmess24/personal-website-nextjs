@@ -10,19 +10,17 @@ Welcome back, everyone! Today's topic will hopefully be a fun one, as we will be
 
 The goal for today's post will be to create a naive implemententation of a vector database from scratch, while incorporating some key features and functionality from a performance perspective. And at the end, we'll go through an example of how to use our "scratch" vector database to perform a similarity search on a list of recipes provided a given query.
 
-Withour further adu, let's get right into it!
-
 ### What is a Vector Database?
 
-In my [previous post](https://www.zacmessinger.com/posts/intro-to-word-embeddings-with-word2vec), we delved into a crucial aspect of modern natural language processing by examining word embeddings, which are dense vectors of floating-point values that can be used to capture context and semantic relationships of words, and by extension, sentences. Embeddings are a undoubtly a powerful tool, but, thats all they are - a tool. The real value comes in how we use them in the context of more powerful models and applications, which is where vector databases come into play!
+In my [previous post](https://www.zacmessinger.com/posts/intro-to-word-embeddings-with-word2vec), we delved into a crucial aspect of modern natural language processing by examining word embeddings, which are dense vectors of floating-point values that can be used to capture context and semantic relationships of words, and by extension, sentences. Embeddings are a undoubtly a powerful tool, but ultimately, thats all they are - a tool. The real value comes in how we use them in the context of more powerful models and applications. That's where vector databases come into play.
 
-A vector database is a specialized type of database designed to store and manage high-dimensional vectors. Unlike traditional databases that handle structured data, such as numbers and strings, a vector database has the ability to handle complex datatypes like text and images by storing them in vector space as embeddings. The core advantage of a vector database lies in its ability to perform rapid and scalable similarity searches across vast datasets, which is crucial for applications such as recommendation systems, image and video retrieval, and more.
+A vector database is a specialized type of database designed to store and manage high-dimensional vectors. Unlike traditional databases that handle structured data, such as numbers and strings, a vector database has the ability to handle complex datatypes like text and images by storing them in vector space as embeddings. The core advantage of a vector database lies in its ability to perform rapid and scalable similarity searches across vast datasets, which is crucial for applications such as recommendation systems, image and video retrieval, and more. And these types of searches are largely accomplished through running is what is known as the cosine similarity formula, which we will be covering in depth during the later portion of this post.
 
-With an understanding of what a vector database is and what it is used for, let's move into the code centric portion of this post!
+Withour further adu, let's get right into it!
 
 ### Library Import
 
-Let's kick everything off by downloading & importing in the libraries we'll use throughout the remainder of this post. There are two new NLP specific libraries here today, so I've included a short description of what they do for reference as we progress through the sections to come.
+Let's kick everything off by downloading & importing in the libraries we'll use throughout the remainder of this post. There are two specific NLP libraries included here today, so below are short descriptions of what they do for reference as we progress through the sections to come.
 
 -   [SentenceTransformer](https://www.sbert.net/): A Python module for accessing, using, and training state-of-the-art text and image embedding models that is maintained by HuggingFace.
 -   [nltk](https://www.nltk.org/): nltk (aka Natural Language Toolkit) is a popular API that provides a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing, and semantic reasoning.
@@ -53,7 +51,7 @@ except:
 
 ### Downloading a Dataset
 
-There's not much work to be done without a robust dataset to fuel our project (or in this case our vector database), so let's import one. Given the goal we're working towards is to leverage a vector database to run searches on food recipes most similar to user provided queries, this obviously means we'll need a dataset of recipes to work with. Luckily for us, I've gone ahead and curated a dataset of roughly ~1900 recipes by scraping www.bodybuilding.com.
+There's not much work to be done without a robust dataset to load into our vector database, so let's import one. Given the goal we're working towards is to leverage a vector database to run searches on food recipes most similar to user provided queries, this means we'll need a dataset of recipes to work with. Luckily for us, I've gone ahead and curated a dataset of roughly ~1900 recipes by scraping www.bodybuilding.com.
 
 We don't need to do anything fancy here - we'll simply fetch the dataset URL from Github, download the file text, and convert it to JSON before storing the output in a pandas dataframe.
 
@@ -106,7 +104,7 @@ data[0]
 
 ### Generating Embeddings
 
-Now that we have a recipe dataset ready to rock and roll, the next step is transforming each recipe into an embedding that accurately captures the semantic meaning of each recipe in vector form. Looking at the columns of our dataset from above, we have a few different options to play around with for determining what combination of attributes would best represent the semantic meaning of each recipe. For example, would we want to include amount of carbs, protiens and fats in the embedding? What about the recipe author?
+The next step is transforming each recipe into an embedding that accurately captures the semantic meaning of each recipe in vector form. Looking at the keys in each recipe above, we have a few different options to play around with for determining what combination of attributes would best represent the semantic meaning of each recipe. For example, would we want to include amount of carbs, protiens and fats in the embedding? What about the recipe author?
 
 Choosing what to include in each embedding is an important thought exercise, and requires a nuanced understanding of how we imagine our vector database would be used by our application. In practice, we might run A/B tests on different combinations of attributes to see which combinations yield the highest precision against a test set of queries. However, we're going to keep things simple here and construct our embeddings using a combination of a recipe's title and description, while storing the rest of the attributes in a metadata storage system. More on that aspect in bit.
 
@@ -130,9 +128,11 @@ print(f"Total Embeddings: {len(embeddings)}")
 print(f"Embedding Dimensions: {embeddings[0].shape[0]}")
 ```
 
-    Total Recipes: 1716
-    Total Embeddings: 1716
-    Embedding Dimensions: 384
+```json
+Total Recipes: 1716
+Total Embeddings: 1716
+Embedding Dimensions: 384
+```
 
 We can see that the ouput of the above code has resulted in generating an embedding for every recipe in our dataset, with each embedding having 384 dimensions.
 
@@ -140,7 +140,7 @@ If you're wondering why 384 is the magic number, it's just because that's what t
 
 ### Vector Database Requirements Overview
 
-Now let's get to the exciting part of this post: how our vector database will work with these embeddings. Database design is a subject matter onto itself that can get complex quickly, but the key concept to grap is that any persistant storage system's functionality will largely revolve around what are known as the "CRUD" operations of create, read, update, and delete. Given our simple implementation and use case, we're only going to include on the first two operations (create and read), while additionally including some features optimized for working specifically with embeddings.
+Now let's get to the exciting part of this post: how our vector database will work with these embeddings. Database design is a subject matter onto itself that can get complex quickly, but the key concept to grap is that any persistant storage system's functionality will largely revolve around what are known as the "CRUD" operations of create, read, update, and delete. Given our simple implementation and use case, we're only going to include the first two operations (create and read), while additionally including some features optimized for working specifically with embeddings.
 
 Below is the full list of features we'll going to create:
 
@@ -148,7 +148,7 @@ Below is the full list of features we'll going to create:
 -   **Caching**: We'll implement a Least Recently Used (LRU) cache to store recently searched query embeddings in memory, reducing computational load and potential costs associated with running the embedding model.
 -   **Search Method**: We'll develop a method to return the top 5 most similar embeddings, along with their associated metadata, based on the input query
 
-We'll tackle these in order, starting with query sanitization!
+Let's tackle each of these features in order, starting with Query Santization.
 
 ### Query Sanitization
 
@@ -192,9 +192,9 @@ sanitize_query(input)
 
 ### Creating a Least Recently Used (LRU) Cache
 
-Next, let's implement a low-effort caching system for storing already generated query embeddings. While the `SentenceTransformer` model we're using is open-source and doesn't cost money to run, there are still performance gains to be considered by not having to generate every user query from scratch. Additionally, if we ever decide to swap out our current embedding model for a state-of-the-art one (like OpenAI or VoyageAI) where we might need to pay for token consumption, having a caching system is one way to implement cost-saving guardrails.
+Next, let's implement a low-effort caching system for storing already generated query embeddings. While the `SentenceTransformer` model we're using is open-source and doesn't cost money to run, there are still speed gains to be considered by not having to generate an embedding for every entered user query. Plus, if we ever decide to swap out our current embedding model for a state-of-the-art one where we might need to pay for token consumption, having a caching system is one way to implement cost-saving guardrails.
 
-There are many different caching systems to choose from, but given our goal of trying to reduce the number of queries we run through our embedding model, focusing on caching the most frequently occurring queries seems like a good approach. Enter a Least Recently Used (or LRU) cache! An LRU cache works exactly as it sounds, by removing the least recently used key-value pairs from memory, which ensures that only the most frequent queries remain in the cache.
+There are many different caching architectures to choose from. But given our goal of trying to reduce the number of queries we run through our embedding model, focusing on caching the most frequently occurring queries seems like a good approach, which is perfect for an Least Recently Used (LRU) cache. An LRU cache works exactly as it sounds, by removing the least recently used key-value pairs from memory, which ensures that only the most frequent queries remain in the cache.
 
 The actual implementation is straightforward. Every time a user runs a new query through our database, we will first check the LRU cache. If the key exists (after running query sanitization), we will return the associated embedding and then bump the key to the end of the cache (which represents the "safe" zone). If the key doesn't exist, we will store the query and its embedding in the cache, and then remove the key-value pair at the front of the cache if the length of the cache exceeds our specified limit.
 
@@ -281,9 +281,9 @@ Wow! In additon to any cost savings gained by not having to run the embedding mo
 
 ### Search Method
 
-Last but not least, the final and most exciting feature in our vector database will be the implementation of a search function that returns the most similar embeddings to a user-provided query. To achieve this, we will utilize the linear algebra concept of cosine similarity, which I briefly covered a few months ago in my post “[Intro to NLP with TF-IDF Vectorization](https://www.zacmessinger.com/posts/intro-to-nlp-with-tfidf).” This time, however, we will delve into greater depth.
+The final and most exciting feature in our vector database will be the implementation of a search function that returns the most similar embeddings to a user provided query. To achieve this, we will utilize the linear algebra concept of cosine similarity, which I briefly covered a few months ago in my post “[Intro to NLP with TF-IDF Vectorization](https://www.zacmessinger.com/posts/intro-to-nlp-with-tfidf).” This time, however, we will delve into greater depth.
 
-Cosine similarity, in simple terms, measures how similar two vectors are by looking at the angle between them. If the angle is small, then we would generally say that the vectors are similar, where if the angle is large, we would say that they are dissimlar. The easiest way to grasp this concept is visually, so let's plot three basic vectors with a little help from the handy `matplotlib` library:
+Cosine similarity, in simple terms, measures how similar two vectors are by looking at the angle between them. If the angle is small, then we would generally say that the vectors are similar, and if the angle is large, we would generally say that they are dissimlar. The easiest way to grasp this concept is visually, so let's plot three basic vectors with a little help from the handy `matplotlib` library:
 
 ```python
 # Define the vectors
@@ -427,11 +427,11 @@ print(f'Cosine similarity between vector_a and vector_c (opposite direction): {s
 
 ![png](/images/posts/vector_dbs_and_cosine_similarity_search_files/vector_dbs_and_cosine_similarity_search_32_0.png)
 
-    Cosine similarity between vector_a and vector_a (orthogonal): 1.0
+    Cosine similarity between vector_a and vector_a (same direction): 1.0
     Cosine similarity between vector_a and vector_b (orthogonal): 0.0
     Cosine similarity between vector_a and vector_c (opposite direction): -1.0
 
-In this context, a cosine similarity score of 0.9925 suggests that the vectors are highly similar and almost align perfectly with each other! If we re-examine our previously created vector plot, we can see that the angle between vectors $A$ and $B$ is extremely small, signifying that the vectors are nearly parallel and thus confirming their high similarity.
+In this context, a cosine similarity score of 0.9925 suggests that the vectors are highly similar and almost align perfectly with each other. If we re-examine our previously created vector plot, we can see that the angle between vectors $A$ and $B$ is extremely small, signifying that the vectors are nearly parallel and thus confirming their high similarity.
 
 To add support for cosine similarity in our vector database, we need to modify our existing `cosine_similarity` function to compare a single query vector against our database of stored embedding vectors. We can achieve this by nesting the formula inside a loop and returning the similarity scores for each vector pairing in a list.
 
@@ -462,7 +462,7 @@ cosine_similarity(vector_a, vectors)
 
     [0.99258333, 0.38892223]
 
-And for validation, let's test our implementation against a production grade function from [scikit-learn](https://scikit-learn.org/), and see how our custom solution compares:
+For validation, let's test our implementation against a production grade cosine similarity function from [scikit-learn](https://scikit-learn.org/), and see how our custom solution compares:
 
 ```python
 from sklearn.metrics.pairwise import cosine_similarity
@@ -470,7 +470,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 cosine_similarity([vector_a], vectors)[0]
 ```
 
-    array([0.99258333, 0.38892223])
+```json
+array([0.99258333, 0.38892223])
+```
 
 Not bad! As a final step, let's combine all our previous logic into a single `search` function. This function will take a query, generate an embedding if it doesn't exist in the cache, measure the cosine similarities between the query embedding and the database of embeddings, and finally return the top 5 results closest to a score of 1, in descending order.
 
@@ -559,7 +561,7 @@ class VectorDatabase:
     return [self.metadata[idx] for idx in top_k_indices]
 ```
 
-To test our implementation, let’s instantiate a copy of our database, initializing it with our pre-generated embeddings and downloaded recipe data, which will be stored as metadata.
+To test our implementation, let’s instantiate a copy of our database and initialize it with our pre-generated embeddings and downloaded recipe data (which will be stored as metadata).
 
 ```python
 # Craete and initialize database
@@ -585,6 +587,8 @@ for i, result in enumerate(results):
 4: Skinny Buffalo Chicken Dip: Everyone's favorite dip goes a bit "lighter" with ...
 5: Chicken Burger Topped With Feta, Roasted Red Bell Pepper & Arugula: Chicken is a great source of lean, high-quality pr...
 ```
+
+Not too bad!
 
 ### Conclusion
 
