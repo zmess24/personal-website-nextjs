@@ -145,7 +145,7 @@ Next, we need to make three key decisions regarding how to chunk our articles: s
 These decisions are crucial for striking a balance between granularity and coherence in the processed text, and fortunately, we don't need to start from scratch. There is ample research available to guide us, so we'll use the following parameters for our chunking approach:
 
 - **Splitting Technique**: We will split the text only at the end of sentences, as this is the simplest and most straightforward approach.
-- **Chunk Size**: 1,024 tokens, [based a study by LlamaIndex](https://www.llamaindex.ai/blog/evaluating-the-ideal-chunk-size-for-a-rag-system-using-llamaindex-6207e5d3fec5).
+- **Chunk Size**: 1024 tokens, [based a study by LlamaIndex](https://www.llamaindex.ai/blog/evaluating-the-ideal-chunk-size-for-a-rag-system-using-llamaindex-6207e5d3fec5).
 - **Overlap Length**: 20%, [based on a study by MongoDB](https://www.mongodb.com/developer/products/atlas/choosing-chunking-strategy-rag/).
 
 It's important to note that in a production setting, we would likely want to test with multiple values for each property to identify the combination that produces the best results. However, for this simple implementation, we'll just stick with these initial parameters since our goal is more to demonstrate how a retreival augemented system works, not create the best system possible.
@@ -198,7 +198,7 @@ Building on our previous functions, `chunk_document` orchestrates the entire chu
 from typing import List, Dict
 from dataclasses import dataclass
 
-def chunk_document(document: Dict[str, str], chunk_size: int = 512) -> List[Chunk]:
+def chunk_document(document: Dict[str, str], chunk_size: int = 1024) -> List[Chunk]:
     """Chunks a document into overlapping pieces preserving sentence boundaries"""
     chunks = []
     current_sentences = []
