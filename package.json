@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "convert": "jupyter nbconvert --to markdown ./src/drafts/*.ipynb --output-dir ./src/posts --output converted_notebook.md"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
