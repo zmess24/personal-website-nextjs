@@ -19,7 +19,7 @@ RAG, or Retrieval Augmented Generation, is a phrase I would venture almost every
 
 ### What is RAG?
 
-To begin, let's start with the most fundamental question of this post - just what is Retrieval Augemented Generation, and even more importantly, why do we need it?
+To begin, let's start with the most fundamental question of this post - what is Retrieval Augemented Generation, and even more importantly, why do we need it?
 
 Retrieval Augemented Generation, or "RAG" for short, is a technique by which an LLM application can leverage an external knowledge source to enhance it's response to a semantic query, and thereby improve it's response accuracy. The goal of RAG is to prevent what are called "hallucinations", which are instances where even though an LLM may express confidence in it's answer, the factual content may be entirely incorrect. For example, I'm sure we all remember the hilarious stories of Googles initial integration of Gemeni into Google Search, where it would occasionally output funny, albeit ridiculous responses like ["use non-toxic glue" to questions such as "how can I make cheese stick to pizza better"](https://www.bbc.com/news/articles/cd11gzejgz4o). While that specific instance is obviously (and hopefully) harmless, hallucinations can become far more impactiful when LLM's are relied upon to aid in real decision making, as the downstream effects of trusting incorrect or incomplete information can be potentially disastrous.
 
@@ -36,9 +36,9 @@ So that's what we'll be building today - a full, end-to-end RAG pipeline.
 
 ### Library Import
 
-If you've been following along with me in AI journey, you'll know that the first step in all of my posts is to import the libraries we'll be using throughout the code to come.
+If you've been following along with me in my AI journey, you'll know that the first step in my posts is to import the libraries we'll be using throughout the code to come.
 
-Most of these should look familiar, as I've used almost all of them have been used in previous posts. However, there is one new library that I want to call out, which is `faiss`, or [Facebook AI Similarity Search](https://ai.meta.com/tools/faiss/). We'll dicuss why this library is important later on, but for now, it's enough to know that it will allow us to perform similarity searches on embeddings more performantly.
+Most of these should look familiar, as I've used almost all of them in previous posts. However, there is one new library that I want to call out, which is `faiss`, or [Facebook AI Similarity Search](https://ai.meta.com/tools/faiss/). We'll dicuss why this library is important later on, but for now, it's enough to know that it will allow us to perform similarity searches on embeddings more performantly.
 
 ```python
 try:
@@ -73,12 +73,12 @@ except:
 
 ### Downloading Data
 
-Next, let's download a few online articles to use as external sources of information for retrieval in our RAG system. The articles we'll use today will be focused on the topic of "AI's impact on the SaaS industry". Since web scraping is not a core focus of this post (and the upcoming topics are more interesting anyway), I'm not going to walk through the mechanics of how the `scrape_articles` function works. However, if you're interested, I've included my source code in the addendum of this post for your review.
+Next, let's download a few online articles to use as external sources of information for retrieval in our RAG system, and the topic of the articles we'll use today will be focused on the topic of "AI's impact on the SaaS industry". Since web scraping is not a core focus of this post (and the upcoming topics are more interesting anyway), I'm not going to walk through the mechanics of how the `scrape_articles` function works. However, if you're interested, I've included my source code in the addendum of this post for your review.
 
 The `scrape_articles` function will return a Python list containing three dictionaries representing each of our three articles. Each dictionary will contain:
 
 - A `url` key, mapped to the source URL of the article.
-- A `test` key, which contains the scraped (and cleaned) raw text from each article.
+- A `text` key, which contains the scraped (and cleaned) raw text from each article.
 
 ```python
 # Article List
@@ -101,16 +101,16 @@ print(f"Document URL: {documents[0]['text'][:200]}")
 
 ### Document Preprocessing
 
-With three articles ready to go, we're ready to start building our retriever component, which in the context of this post will be a vector database. Given that I've written about vector databases and embeddings before, I won't spend a ton of time here covering then in depth ([Intro to Word Embeddings with Word2Vec](https://www.zacmessinger.com/posts/intro-to-word-embeddings-with-word2vec) and [Vector Databases and Cosine Similarity Searches](https://www.zacmessinger.com/posts/vector-databases-and-similarity-search). However, it's important to understand the fundamentals of what they are before moving forward, so here are some high level definitions:
+With three articles ready to go, we're ready to start building our retriever component, which in the context of this post will be a vector database. Given that I've written about vector databases and embeddings before, I won't spend a ton of time covering then in depth ([Intro to Word Embeddings with Word2Vec](https://www.zacmessinger.com/posts/intro-to-word-embeddings-with-word2vec) and [Vector Databases and Cosine Similarity Searches](https://www.zacmessinger.com/posts/vector-databases-and-similarity-search). However, it's important to understand the fundamentals of what they are before moving forward, so here are some high level definitions:
 
 - **Embeddings**: Word embeddings are numerical representations of words in vector form which can capture the semantic relationships of words and sentences to infer meaning.
 - **Vector Database**: A vector database is a storage system that can save and efficiently query high-dimensional embeddings using distance metrics, enabling rapid similarity searches across massive datasets for applications like semantic search and recommendation engines.
 
 When implementing Retrieval Augmented Generation, one of the critical design decisions lies in determining how to break down documents into segments for embedding. While modern language models make the process of converting text into vector representations straightforward, the real challenge emerges in choosing the appropriate granularity for these segments, particularly when dealing with substantial bodies of text.
 
-At first glance, converting each document into a single vector embedding might seem like an elegant solution. However, this approach significantly compromises the precision and effectiveness of our retrieval system. To illustrate this, consider searching through a comprehensive 500-page cookbook. If someone asks for guidance on crafting the perfect pizza crust, would you hand them the entire cookbook because it contains a pizza recipe somewhere within its pages, or would you direct them specifically to the detailed section about pizza dough preparation? The answer becomes clear - providing focused, relevant information leads to more meaningful and useful results. Just as a well-organized cookbook allows readers to quickly locate specific recipes, properly segmented documents enable our retrieval system to pinpoint the most relevant information for any given query, enhancing both the accuracy and utility of the generated responses.
+At first glance, converting each document into a single vector embedding might seem like an elegant solution. However, this approach significantly compromises the precision and effectiveness of our retrieval system. To illustrate this, consider searching through a comprehensive 500-page cookbook. If someone asks for guidance on crafting the perfect pizza crust, would you hand them the entire cookbook because it contains a pizza recipe somewhere within its pages, or would you direct them specifically to the detailed section about pizza dough preparation? The answer is clear - providing focused, relevant information leads to more meaningful and useful results. Just as a well-organized cookbook allows readers to quickly locate specific recipes, properly segmented documents enable our retrieval system to pinpoint the most relevant information for any given query, enhancing both the accuracy and utility of the generated responses.
 
-This is where a process known as "document chunking" comes into play. By breaking documents into smaller, meaningful segments, we solve of ensuring that our searches return precisely relevant information rather than entire documents containing mostly irrelevant content. This targeted approach not only improves search accuracy, but also enables our systems to generate more precise and helpful responses based on the most relevant portions of our documents, which is ultimately our end goal.
+This is where a process known as "document chunking" comes into play. By breaking documents into smaller, meaningful segments, we ensure that our searches return precisely relevant information rather than entire documents containing mostly irrelevant content. This targeted approach not only improves search accuracy, but also enables our systems to generate more precise and helpful responses based on the most relevant portions of our documents, which is ultimately our end goal.
 
 In order to chunk each of our three articles, we'll begin by defining a `Chunk` class. The class will contain a couple of different properties that will be helpful from a metadata perspective:
 
@@ -136,7 +136,7 @@ class Chunk:
 
 ### Document Chunking Decision Criteria
 
-Next, we need to make three key decisions regarding how to chunk our articles: splitting technique, chunk size and overlap length. In case you've never heard of these terms before:
+Next, we need to make three key decisions regarding how to chunk our articles - splitting technique, chunk size and overlap length. In case you've never heard of these terms before:
 
 - **Splitting Technique** determines where the semantic boundries should be when breaking apart a document. Common boundries include the end of a sentence or the end of a paragraph.
 - **Chunk size** refers to the target number of tokens each chunk should contain.
@@ -148,7 +148,7 @@ These decisions are crucial for striking a balance between granularity and coher
 - **Chunk Size**: 1024 tokens, [based a study by LlamaIndex](https://www.llamaindex.ai/blog/evaluating-the-ideal-chunk-size-for-a-rag-system-using-llamaindex-6207e5d3fec5).
 - **Overlap Length**: 20%, [based on a study by MongoDB](https://www.mongodb.com/developer/products/atlas/choosing-chunking-strategy-rag/).
 
-It's important to note that in a production setting, we would likely want to test with multiple values for each property to identify the combination that produces the best results. However, for this simple implementation, we'll just stick with these initial parameters since our goal is more to demonstrate how a retreival augemented system works, not create the best system possible.
+It's important to note that in a production setting, we would likely want to test with multiple values for each property to identify the combination that produces the best results. However, for this simple implementation, we'll just stick with these initial parameters since our goal is more to demonstrate how a RAG system works, not create the best system possible.
 
 To break down our articles into manageable chunks, we'll need to implement a few helper functions. We'll start by using `spacy`, a powerful natural language processing library, to split documents into individual sentences in a linguistically intelligent way.
 
