@@ -6,38 +6,35 @@ date: "09-11-2025"
 link: "/posts/building-ai-agent"
 ---
 
+Afte I'm back with what I believe might be my most exciting blog topic yet, as today we're going to be exploring the defining AI phenomenon of 2025; AI Agents!
 
-Welcome back everyone! I'm back with what I believe might be my most exciting blog topic yet, as today we're going to be exploring the defining AI phenomenon of 2025; AI Agents!
-
-The term 'agents' has swept through the world over the last year, and you've likely encountered it everywhere: AI agents, agentic workflows, agentic commerce, agentic marketing platforms, agentic customer service solutions -- and that's just scratching the surface. The momentum feels remarkably similar to the initial wave of excitement that swept the world when ChatGPT launched almost three years ago and sparked the LLM revolution. But with all that excitement has come an equal measure of ambiguity, as definitions of what constitutes an "agent" vary wildly depending on who you ask.
+The term 'agents' has swept through the world over the last year, and chances are, you've likely encountered it as a buzz word incorporated into any novel business idea or feature you've read about. For example, we now have agentic workflows, agentic commerce, agentic marketing platforms, agentic customer service solutions; the momentum feels remarkably similar to the initial wave of excitement when ChatGPT first launched almost three years ago. But with all that excitement has come an equal measure of ambiguity, as definitions of what constitutes an "agent" can vary wildly. 
 
 So that's the question we're going to tackle today. My goal is to cut through the noise and distill what an agent actually is and why they matter, because, while we're still in the early stages, this technology has the potential to be truly disruptive over the next few years. And the fun part? We're going to build an agent from scratch!
 
 ### What is an Agent?
 
-Let's start with the fundamental question -- just what is an AI agent? In preparing for this post, I researched extensively across credible websites, blogs, and videos, searching for a consistent definition that was easy to understand. What I found was, well... confusing. Here are just a few of the definitions I encountered:
+As with all my [posts](https://zacmessinger.com), let's begin by addressing our root topic for today - just what is an AI agent? In preparing for this post, I researched extensively across credible websites, blogs, and videos, searching for a consistent definition that was easy to understand. What I found was, well... ambigous. Here are just a few of the definitions I encountered:
 
 * "*AI agents are software systems that use AI to pursue goals and complete tasks on behalf of users*"
 * "*An AI agent is a software component that has the agency to act on behalf of a user or a system to perform tasks*"
 * "*An AI agent is an entity that can act autonomously in an environment. It can take information from its surroundings, make decisions based on that data, and act to transform those circumstances—physical, digital, or mixed*"
 * "*An artificial intelligence (AI) agent is a software program that can interact with its environment, collect data, and use the data to perform self-determined tasks to meet predetermined goals*"
 
-I don't know about you, but to me, these definitions feel vague. Sure, they tell us agents are "autonomous software systems", but they sidestep the fascinating part, which is the "how". What specific capabilities transform an LLM from simply answering questions into something that can independently plan, decide, and act?
+I don't know about you, but to me, these definitions feel vague. Sure, they all in more or less tell us that agents are "autonomous software systems that work to accomplish a goal", but they sidestep the fascinating part, which is the "how". How can a large language model (LLM) transform from a simple question & answering tool, into something that can independently plan, decide, and act?
 
-This is where an excellent video by the Anthropic team comes to the rescue. In [Tips for Building Agents](https://www.youtube.com/watch?app=desktop&v=LP5OCa20Zpg), researcher Erik provides what I believe is the clearest definition of what an agent actually is:
+Enter this excellent video by the Anthropic team I came across a few months ago, where they discuss this very question. In [Tips for Building Agents](https://www.youtube.com/watch?app=desktop&v=LP5OCa20Zpg), Anthropic researcher Erik provides what I believe is the clearest definition of what an agent actually is:
 
 `"...What we think an agent is, is where you're letting the LLM decide sort of how many times to run. You're having it continuing to loop until it's found a resolution".`
 
-For less technical readers, a "loop" is a programming construct that repeats an action either a specific number of times or until a condition is met. Here's a simple Python example that counts to 5:
+For my less technical readers, a "loop" is a programming construct that repeats an action either a specific number of times, or until an explicit condition is met. For example, here's a Python loop that counts to 5 and prints out the current number during each iteration:
 
 
 ```python
 for i in range(0,5): print(i)
 ```
 
-Which would print the following:
-
-```
+```python
 1
 2
 3
@@ -45,7 +42,7 @@ Which would print the following:
 5
 ```
 
-So in the context of AI agents, Erik's description means using a loop to have an LLM continuously process and evaluate its own output until it achieves its goal. We can imagine replacing the above example with something like the below pseudocode to create that desired behavior:
+In the context of an agent, Erik's definition means using a loop to have an LLM continuously process and evaluate its own output until it achieves a provided goal. Expanding on our simple loop from above, we can imagine reframing that example into something like the below pseudocode to create that desired behavior:
 
 ```python
 # Define a placeholder variable for the LLM's response
@@ -53,19 +50,16 @@ response = None
 
 while True:
   # Initiate LLM call with text / question
-  response = llm.chat(input="Some text here")
+  response = llm.chat(input="What is the current temperature outside?")
   # If the response is the final answer, than break the loop
   if response == final_response: break
 ```
 
-The elegance lies in the simplicity. Rather than manually implenting complex control systems, we simply let the LLM itself determine when it has reached a satisfactory resolution.
-
+The elegance lies in the simplicity. Rather than manually implementing complex control systems, we simply let the LLM itself determine when it has reached a satisfactory resolution to break the loop. However, a loop alone isn't quite enough to enable an LLM to reach that resolution with precision - it needs a few specific architectural components to fully unlock it's abilty to autonomously make decisions.
 
 ### Tools, Memory, and Planning
 
-With the "what" of an agent defined, the next logical question becomes "how". How does an LLM move beyond simply responding to prompts and actually engage in independent problem-solving, and more importatntly, what specific architectural components enable this autonomous looping behavior?
-
-While different frameworks and implementations may vary in their specifics, most modern AI agents primarily rely on three fundamental building blocks that work together to create truly autonomous behavior. I particularly like how this article and graphic from [Prompting Guide](https://www.promptingguide.ai/research/llm-agents) distills these three building blocks into three clear components:
+While different frameworks and implementations may vary in their specifics, most modern AI agents primarily rely on a few fundamental building blocks that work together to create truly autonomous behavior. I particularly like this article from [Prompting Guide](https://www.promptingguide.ai/research/llm-agents), which distills these three building blocks into three clear components:
 
 ![](https://www.promptingguide.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fagent-framework.ad7f5098.png&w=1920&q=75)
 
@@ -74,16 +68,17 @@ While different frameworks and implementations may vary in their specifics, most
 * **Memory**: How does the agent manage & recall it's past interactions to aid in future decisions?
 * **Planning**: What steps should the agent follow when making a decision?
 
-Think of these three components as the foundation that transforms a simple question-answering system into a fully autonomous problem-solver. Tools extend the agent's capabilities beyond its training data, allowing it to search the web, perform calculations, or interact with APIs in real-time. Memory provides continuity, enabling the agent to learn from previous interactions and maintain context across complex, multi-step conversations. Planning serves as the agent's reasoning engine, helping it break down complex problems into manageable steps and decide which tools to use and when. When these components work together, they create the "loop until resolution" behavior that Erik described. The agent can plan an approach, use tools to gather information, remember what it's learned, replan based on new information, and continue this cycle until it reaches a satisfactory solution -- all without human intervention.
+When these components work together, they create the "loop until resolution" behavior that Erik described. The agent can plan an approach, use tools to gather information, remember what it's learned, replan based on new information, and continue this cycle until it reaches a satisfactory solution -- all without human intervention.
 
-If this sounds abstract, don't worry. We're going to break each of them down in depth in the sections ahead, showing exactly how to implement each one from scratch. To make this practical, we'll build a specialized nutrition agent that analyzes your health measurements and fitness goals to determine whether you should increase your caloric intake and by how much.
+If this sounds abstract, don't worry because that's the topic of today's post! We're going to break each building block in depth in the sections ahead by showing exactly how to implement each one from scratch, before rolling them into our own agent framework. More broadly and to make this exercise practical, we're going to be building a nutrition agent whose goal is to help users figure out how many calories they should eat in a day in order to gain or lose weght, based on health measurements we provide it.
 
 Enough preamble. Let's jump right into it!
 
 ### Library Import
 
-Let's begin by importing in the libraries that we'll be using throughout the remainder of this post. Nothing new to see here today, as these are all libraries I've leveraged in pasts posts.
+As always, let's setup the sections to come by importing in the libraries that we'll be using throughout remainder of this post. If you've been following on my AI journey, none of these libraries should look new as they are all more or less standard Python packages that I've leveraged previously. However, I encouage you to look any or all of them up if your unfamiliar of their exact purpose.
 
+The only new library to call out is the `opena-agent` package, which we won't use until the very end as a benchmark to to test our own agent framework against.
 
 ```python
 try:
@@ -91,24 +86,22 @@ try:
   import os
   import json
   import re
-  from tqdm.auto import tqdm
 
   # Typings
   from pydantic import BaseModel, Field, PrivateAttr
   from typing import List, Dict, Any, Optional, Callable
 
   # ML & AI Libraries
-  import anthropic
   from openai import OpenAI
   from agents import Agent, Runner, function_tool
 except:
-  !pip install anthropic openai-agents -q
-  import anthropic
+  !pip install openai-agents -q
+  from agents import Agent, Runner, function_tool
 ```
 
 ### What is a Tool?
 
-Let's begin by exploring the first component in our agent's architecture, Tools. Tools are external functions or services that an LLM can call to augment its capabilities beyond pure text generation. While LLMs can excel at reasoning and language understanding (generally speaking), they don't inherently have access to real-time data, complex computations, or domain specific APIs. For example, an LLM agent might use a calculator tool for mathematical operations, a web search tool for current information, or a database query tool for structured knowledge retrieval. In fact, in my previous blog post on [Retrieval Augement Generation](https://www.zacmessinger.com/posts/retrieval-augmented-generation), we built a vector database from scratch, which is essentially a specialized tool for semantic search and knowledge retrieval.
+With our libraries imported and clear definition of what an agent is, let's start by exploring the first component in our agent's architecture - tools. Tools are external functions or services that an LLM can call to augment its capabilities beyond pure text generation. While LLMs can excel at reasoning and language understanding (generally speaking), they don't inherently have access to real-time data, complex computations, or domain specific APIs. For example, an LLM agent might use a calculator tool for mathematical operations, a web search tool for current information, or a database query tool for structured knowledge retrieval. In fact, in my previous blog post on [Retrieval Augement Generation](https://www.zacmessinger.com/posts/retrieval-augmented-generation), we built a vector database from scratch, which is essentially a specialized tool for semantic search and knowledge retrieval.
 
 An LLM can decide when and how to use a tool by generating specific commands based on the conversation context through interpreting user intent, intermediate reasoning steps, or gaps in its own knowledge. For instance, if we asked our agent about the current temperature, it might generate a `get_weather` command to fetch location specific data from a designated weather tool, accessing information that the underlying LLM doesn't inherently possess (unless of course it hallucinates).
 
