@@ -6,22 +6,24 @@ date: "09-11-2025"
 link: "/posts/building-ai-agent"
 ---
 
-Hi everyone! I'm back with what might be my most exciting, yet rewarding blog topic yet. The defining AI phenomenon of 2025 - AI Agents!
+Against my better judgment, I've once again become completely and utterly hooked on chess. There's something endlessly fascinating about maneuvering through the limitless combinations of every piece on the board, pursuing the singular purpose of checkmating the opponent's king. A knight can leap across the board, a bishop slices through diagonals, pawns quietly set the stage for bigger plays, and queens wreak havoc no matter where they're placed. The path to improvement is earned the hard way - consistent victory comes only through meticulous planning, a robust memory of past games, and careful use of the right piece at the right time.
 
-Over the past year, the term "agent" has exploded across the tech landscape. You've probably seen it attached to just about every new idea or product pitch: agentic workflows, agentic commerce, agentic marketing platforms, agentic customer service solutions - the list goes on, and on, and on. In my opinion, the momentum feels strikingly similar to the surge of excitement we saw when ChatGPT first launched nearly three years ago. But with the hype has come confusion: what exactly is an agent? Ask ten people and you'll likely get ten different answers.
+As with any aspiring grandmaster, part of getting better at chess naturally involves playing against the computer, which can be either the most frustrating or rewarding experience imaginable. How are you supposed to beat an intelligent system that can actively plan seven steps ahead of every move you make, with the explicit goal of crushing you in the most demoralizing way possible? Defeating these chess engines at progressively difficult levels is part of any reasonable improvement strategy, but I've always wondered: how do they actually work? And while these systems aren't identical to what we'll discuss today, they do lead us perfectly to our main topic - AI agents.
 
-That's the question we're going to tackle today. My goal is to cut through the noise, clarify what an agent actually is, and explain why it matters. Because while the concept is still in its early stages, the potential for disruption over the next few years is enormous. And the best part? We won't just talk about it...we'll build an agent from scratch together!
+Over the past year, the term "agent" has exploded across the tech landscape. You've probably seen it attached to just about every new idea or product pitch: agentic workflows, agentic commerce, agentic marketing platforms, agentic customer service solutions - the list goes on, and on, and on. In my opinion, the momentum feels strikingly similar to the surge of excitement we saw when ChatGPT first launched nearly three years ago. But this all begs the question - just what exactly is an agent?
+
+That's the question we're going to tackle today. My goal is to cut through the noise, clarify what an agent actually is, and explain why it matters. Because while the concept is still in its early stages, the potential for disruption over the next few years is enormous. And the best part? We won't just talk about it...we'll build an agent from scratch together.
 
 ### What is an Agent?
 
-As with all my [posts](https://zacmessinger.com), let's begin by addressing our root topic for today - just what is an AI agent? In preparing for this post, I researched extensively across credible websites, blogs, and videos, searching for a consistent definition that was easy to understand. What I found was, well... ambigous. Here are just a few of the definitions I encountered:
+Let's begin by addressing the core topic for today. In preparing for this post, I researched extensively across credible websites, blogs, and videos, searching for a consistent definition that was easy to understand. What I found was, well... ambigous to say the least. Here are just a few of the definitions I encountered:
 
 * "*AI agents are software systems that use AI to pursue goals and complete tasks on behalf of users*"
 * "*An AI agent is a software component that has the agency to act on behalf of a user or a system to perform tasks*"
 * "*An AI agent is an entity that can act autonomously in an environment. It can take information from its surroundings, make decisions based on that data, and act to transform those circumstances—physical, digital, or mixed*"
 * "*An artificial intelligence (AI) agent is a software program that can interact with its environment, collect data, and use the data to perform self-determined tasks to meet predetermined goals*"
 
-I don't know about you, but to me, these definitions feel vague. Sure, they all more or less tell us that agents are "autonomous software systems that work to accomplish a goal", but they sidestep the fascinating part, which is the "how". How can a large language model (LLM) transform from a simple question & answering tool, into something that can independently plan, decide, and act?
+I'm sure you'll agree with me that these definitions feel vague. Sure, they all more or less tell us that agents are "autonomous software systems that work to accomplish a goal", but they sidestep the fascinating part, which is the "how". How can a large language model (LLM) transform from a simple question & answering tool into something that can independently plan, decide, and act?
 
 Enter this excellent video by the Anthropic team I came across a few months ago, where they discuss this very question. In [Tips for Building Agents](https://www.youtube.com/watch?app=desktop&v=LP5OCa20Zpg), Anthropic researcher Erik provides what I believe is the clearest definition of what an agent actually is:
 
@@ -68,15 +70,13 @@ I particularly like how this article from [Prompting Guide](https://www.promptin
 
 When these components work together, they enable the "loop until resolution" behavior that we are seeking. After being provided with a goal, the agent can plan an approach (*Planning*), recall past interactions to determine what new information it needs (*Memory*), use tools to gather that information (*Tools*), and then replan (*Planning*) - continuing this cycle through a loop until it reaches a satisfactory solution, all without human intervention. 
 
-If this sounds abstract, don't worry, because that's the topic of today's post! We're going to break each building block in depth in the sections ahead by showing exactly how to implement each one from scratch, before rolling them into our own agent framework. To make this more practical (and hopefully fun), we're going to be building a nutrition agent whose goal is to help users figure out how many calories they should eat in a day in order to gain or lose weght, based on specific health measurement metrics provided to it.
-
-Enough preamble. Let's jump right into it!
+If this sounds abstract, don't worry! We're going to break each building block in depth in the sections ahead by showing exactly how to implement each one from scratch, before rolling them into our own agent framework. To make this more practical and hopefully fun, we'll build a nutrition agent whose goal is to help users figure out how many calories they should eat in a day in order to gain or lose weght, based on specific health measurement metrics provided to it.
 
 ### Library Import
 
 As always, let's setup the sections to come by importing in the libraries that we'll be using throughout remainder of this post. If you've been following my blog over the ~2 years, none of these libraries should look new as they are all more or less standard Python packages that I've leveraged previously. However, I encouage you to look any or all of them up if your unfamiliar of their exact purpose before continuing onward.
 
-The only new library to call out is the `opena-agent` package, which enables building AI agents in a lightweight, easy-to-use package with few abstractions, However, we'll only be using it at the very end of this post as a benchmark to to test our own agent framework against.
+The only new library to call out is the `openai-agent` package, which enables building AI agents in a lightweight, easy-to-use package with few abstractions, However, we'll only be using it at the very end of this post as a benchmark to to test our own agent framework against.
 
 ```python
 try:
@@ -389,16 +389,16 @@ print(tdee_calculator_tool.get_schema())
 
 ### Memory Management
 
-Having established the tools we'll use, the next piece of our nutrition agent's framework to explore is memory. As we defined earlier, memory enables an agent to store and recall past interactions to inform future decisions. You might wonder why this capability matters - the answer lies in how we naturally make decisions in our own lives.
+Having established the tools we'll use, the next piece of our nutrition agent's framework to explore is memory. As we defined earlier, memory enables an agent to store and recall past interactions to inform future decisions. You might wonder why this capability matters, and the answer lies in how we naturally make decisions in our own lives.
 
-Rarely do we make decisions in isolation, as whether consciously or subconsciously, we always draw upon past experiences to guide our choices. Consider crossing a busy intersection. You wouldn't simply walk into traffic without thinking (unless you subscribe to the "[if you can dodge traffic, you can dodge a ball](https://www.youtube.com/watch?v=h-OvGYHHbSU)" philosophy). Instead, you'd naturally recall safety protocols to help you cross, like looking for traffic lights, finding a crosswalk button, waiting for a signal, and hopefully checking for oncoming vehicles before crossing, unlike our friend Gordan.
+Rarely do we make decisions in isolation, as whether consciously or subconsciously, we always draw upon past experiences to guide our choices. Consider crossing a busy intersection. You wouldn't simply walk into traffic without thinking (unless you subscribe to the "[if you can dodge traffic, you can dodge a ball](https://www.youtube.com/watch?v=h-OvGYHHbSU)" philosophy). Instead, you'd naturally recall safety protocols to help you cross, like looking for traffic lights, finding a crosswalk button, waiting for a signal, and hopefully checking for oncoming vehicles before crossing (unlike our friend Gordan).
 
 Fortunately, creating a memory system for our agent is surprisingly straightforward. Similar to the approach I outlined in my [Vector Databases and Cosine Similarity Searches](http://localhost:3000/posts/vector-databases-and-similarity-search) post where we created a vector database from scratch, we can build a simple yet effective memory system by storing past interactions (user inputs and agent responses) in a structured list that our agent can reference when making future decisions. We'll implement this with a `Memory` class that provides two key methods: 
 
 * `add`: Appends new interactions to interactions list.
 * `get`: Returns the complete interaction history list.
 
- Additionally, we'll add a default message limit to optimize token consumption by controlling how many interactions we store at any given time.
+Additionally, we'll add a default message limit to optimize token consumption by controlling how many interactions we store at any given time.
 
 ```python
 class Message(BaseModel):
@@ -426,7 +426,6 @@ class Memory(BaseModel):
 
 To perform a simple test, let's try adding a few messages to memory and then recalling them to ensure it's working as expected:
 
-
 ```python
 # Initialize Memory
 memory = Memory(max_limit=10)
@@ -449,7 +448,7 @@ user: I'm doing good, how is your day
 assistant: Great
 ```
 
-With that, we're ready to tackle the third and arguably most crucial component of our agent's architecture - planning. Buckle up, because up next we're about to go deep down the rabbit hole of prompt engineering!
+With that, we're ready to tackle the third and arguably most crucial component of our agent's architecture, planning. Buckle up, because up next we're about to go deep down the rabbit hole of prompt engineering!
 
 ### Planning
 
@@ -477,13 +476,13 @@ Chain-of-Thought prompting was further refined shortly later in [2022 by researc
 
 ![](/images/posts/building-ai-agent/2.png)
 
-As we can see through [OpenAI's](https://platform.openai.com/docs/guides/structured-outputs/chain-of-thought#chain-of-thought) and [Anthropic's](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#how-to-prompt-for-thinking) documentation, "let's think step-by-step" is now the recommended instruction when encouraging models to employ CoT reasoning, indicating it has become an industry standard. And so, this is exactly the approach we'll adopt to help guide our nutritions agent's thought process within our planning module.
+As we can see through [OpenAI's](https://platform.openai.com/docs/guides/structured-outputs/chain-of-thought#chain-of-thought) and [Anthropic's](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#how-to-prompt-for-thinking) documentation, "let's think step-by-step" is now the recommended instruction when encouraging models to employ CoT reasoning, indicating it has become an industry standard. And so, this is exactly the approach we'll adopt to help guide our nutritions agent's thought process within our planning module to help guide it during evaluation process.
 
 ### Using XML Tags
 
-We're nearly ready to implement our planning module, but one critical piece is still missing: a mechanism for our nutrition agent to clearly distinguish between different inputs and outputs. This is where XML tags come into play.
+We're nearly ready to implement our planning module, but one critical piece is still missing - a mechanism for our nutrition agent to clearly distinguish between different inputs and outputs. This is where XML tags come into play!
 
-For those unfamiliar with what an XML tag is, they are markup elements that use angle brackets to define and structure data, similar to HTML but more flexible and customizable. An XML tag consists of an opening tag <tagname> and a closing tag </tagname> that wrap around content, creating a container that labels and organizes information. For example, if we wanted to represent my name and age with XML tags, we might use:
+For those unfamiliar with what an XML tag is, XML tags are markup elements that use angle brackets to define and structure data, similar to HTML but more flexible and customizable. An XML tag consists of an opening tag <tagname> and a closing tag </tagname> that wrap around content, creating a container that labels and organizes information. For example, if we wanted to represent my name and age with XML tags, we might use:
 
 ```python
 <name>Zac Messinger</name>
