@@ -11,7 +11,7 @@ const Card = ({ data }) => {
 					<p>{data.description}</p>
 				</section>
 				<section className="card-footer">
-					<span className="date">{moment(data.date).format("MMM YYYY")}</span>
+					<span className="date">{moment(data.date, "MM-DD-YYYY").format("MMM YYYY")}</span>
 					<ul id="tags" className="is-flex-direction-row">
 						{data.tags &&
 							data.tags.map((tag) => {

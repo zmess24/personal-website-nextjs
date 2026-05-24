@@ -35,7 +35,7 @@ export default function Post({ postData }) {
 								<div className="post-header">
 									<span className="item">
 										<FontAwesomeIcon size="sm" icon={faCalendar} />
-										{moment(postData.date).format("MMM DD YYYY")}
+										{moment(postData.date, "MM-DD-YYYY").format("MMM DD YYYY")}
 									</span>
 									<span className="item">
 										<FontAwesomeIcon size="lg" icon={faClock} />
