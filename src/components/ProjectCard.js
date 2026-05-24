@@ -25,7 +25,7 @@ const Card = ({ data }) => {
 				</ul>
 			</section>
 			<section className="card-footer">
-				<span className="date">{moment(data.date).format("MMM YYYY")}</span>
+				<span className="date">{moment(data.date, "MM-DD-YYYY").format("MMM YYYY")}</span>
 				{data.github && (
 					<Link href={data.github} target="_blank" rel="noreferrer">
 						<FontAwesomeIcon size="lg" icon={faGithub} />

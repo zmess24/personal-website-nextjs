@@ -27,9 +27,8 @@ export function getSortedProjectsData() {
 	});
 	// Sort posts by date
 	return allProjectData.sort((a, b) => {
-		a = moment(a.date);
-		b = moment(b.date);
-		debugger;
+		a = moment(a.date, "MM-DD-YYYY");
+		b = moment(b.date, "MM-DD-YYYY");
 		if (a < b) {
 			return 1;
 		} else {
