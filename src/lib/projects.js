@@ -3,6 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import moment from "moment";
 
+const DATE_FORMATS = ["MM/DD/YYYY", "MM-DD-YYYY"];
 const projectsDirectory = path.join(process.cwd(), "src/projects");
 
 export function getSortedProjectsData() {
@@ -10,7 +11,7 @@ export function getSortedProjectsData() {
 	const fileNames = fs.readdirSync(projectsDirectory);
 	const allProjectData = fileNames.map((fileName) => {
 		// Remove ".md" from file name to get id
-		const id = fileName.replace(/\.md$/, "");
+		const id = fileName.replace(/\.mdx?$/, "");
 
 		// Read markdown file as string
 		const fullPath = path.join(projectsDirectory, fileName);
@@ -25,14 +26,6 @@ export function getSortedProjectsData() {
 			...matterResult.data,
 		};
 	});
-	// Sort posts by date
-	return allProjectData.sort((a, b) => {
-		a = moment(a.date, "MM-DD-YYYY");
-		b = moment(b.date, "MM-DD-YYYY");
-		if (a < b) {
-			return 1;
-		} else {
-			return -1;
-		}
-	});
+	// Newest first
+	return allProjectData.sort((a, b) => moment(b.date, DATE_FORMATS).valueOf() - moment(a.date, DATE_FORMATS).valueOf());
 }
