@@ -19,6 +19,13 @@ const DATE_FORMAT = "MM-DD-YYYY";
 // Summaries in front matter end with "..."; the new design shows them as plain lines.
 const cleanDescription = (d) => (d || "").replace(/\s*(\.\.\.|…)\s*$/, "");
 
+// Reading time from the prose (code blocks left out), at ~225 words a minute.
+function readingMinutes(content) {
+	const prose = content.replace(/```[\s\S]*?```/g, " ").replace(/^(?: {4}|\t).*$/gm, " ");
+	const words = prose.split(/\s+/).filter(Boolean).length;
+	return Math.max(1, Math.round(words / 225));
+}
+
 function readPost(fileName) {
 	const id = fileName.replace(/\.md$/, "");
 	const fileContents = fs.readFileSync(path.join(postsDirectory, fileName), "utf8");
@@ -36,6 +43,7 @@ export function getSortedPostsData() {
 				id,
 				...matterResult.data,
 				description: cleanDescription(matterResult.data.description),
+				readingMinutes: readingMinutes(matterResult.content),
 			};
 		});
 	// Newest first
@@ -59,16 +67,11 @@ export async function getPostData(id) {
 		.process(matterResult.content);
 	const contentHtml = processedContent.toString();
 
-	// Reading time from the prose (code blocks left out), at ~225 words a minute.
-	const prose = matterResult.content.replace(/```[\s\S]*?```/g, " ").replace(/^(?: {4}|\t).*$/gm, " ");
-	const words = prose.split(/\s+/).filter(Boolean).length;
-	const readingMinutes = Math.max(1, Math.round(words / 225));
-
 	return {
 		id,
 		contentHtml,
 		toc,
-		readingMinutes,
+		readingMinutes: readingMinutes(matterResult.content),
 		...matterResult.data,
 		description: cleanDescription(matterResult.data.description),
 	};

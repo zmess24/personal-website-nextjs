@@ -1,4 +1,4 @@
-/* Home: one line, oldest to newest. Writing above the axis, things built and work below. */
+/* Home: hero, what I'm building now, then one vertical line of everything, newest first. */
 .hero {
 	padding-block: clamp(36px, 7vw, 88px) 24px;
 	display: grid;
@@ -19,184 +19,11 @@
 	margin: 0;
 	max-width: 26em;
 }
-.legend {
-	display: flex;
-	gap: 22px;
-	color: var(--dim);
-	margin-top: 18px;
-	flex-wrap: wrap;
-}
-.legend span {
-	display: inline-flex;
-	gap: 8px;
-	align-items: center;
-}
-.legend i {
-	width: 9px;
-	height: 9px;
-	border-radius: 50%;
-	background: var(--ink);
-}
-.legend i.p {
-	border-radius: 2px;
-	background: var(--proj);
-}
-.legend i.j {
-	border-radius: 3px;
-	background: #635bff;
-}
-
-.rail {
-	position: relative;
-	overflow-x: auto;
-	overflow-y: hidden;
-	margin-top: 32px;
-	border-top: 1px solid var(--rule);
-	border-bottom: 1px solid var(--rule);
-	scrollbar-width: thin;
-	scroll-snap-type: x proximity;
-}
-.rail-in {
-	position: relative;
-	padding-left: 24px;
-	--cw: 176px;
-}
-.axis {
-	position: absolute;
-	left: 24px;
-	right: 0;
-	top: var(--ax);
-	height: 1px;
-	background: var(--ink);
-}
-.axis::after {
-	content: "";
-	position: absolute;
-	right: 276px;
-	top: -4px;
-	width: 9px;
-	height: 9px;
-	border-radius: 50%;
-	background: var(--proj);
-	box-shadow: 0 0 0 6px color-mix(in srgb, var(--proj) 18%, transparent);
-	animation: pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse {
-	50% {
-		box-shadow: 0 0 0 12px transparent;
-	}
-}
-.yr {
-	position: absolute;
-	top: calc(var(--ax) + 10px);
-	left: calc(24px + var(--x));
-	font: 400 12px var(--mono);
-	color: var(--dim);
-	padding-left: 6px;
-	border-left: 1px solid var(--rule);
-	height: 16px;
-	line-height: 16px;
-	scroll-snap-align: start;
-}
-.ev {
-	position: absolute;
-	left: calc(24px + var(--x));
-	width: var(--cw);
-	padding: 10px 12px;
-	background: var(--card);
-	border: 1px solid var(--rule);
-	border-radius: 6px;
-	transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.3s;
-	transform-origin: left;
-}
-.ev::before {
-	content: "";
-	position: absolute;
-	left: -1px;
-	width: 1px;
-	background: var(--ink);
-}
-.ev.up {
-	bottom: calc(100% - var(--ax) + 24px + var(--lane) * var(--lh));
-	height: calc(var(--lh) - 12px);
-}
-.ev.up::before {
-	top: 100%;
-	height: calc(24px + var(--lane) * var(--lh));
-}
-.ev.dn {
-	top: calc(var(--ax) + 40px + var(--lane) * var(--ld));
-}
-.ev.dn::before {
-	bottom: 100%;
-	height: calc(40px + var(--lane) * var(--ld));
-	background: var(--proj);
-}
-.ev:hover {
-	transform: translateY(-2px);
-	border-color: var(--ink);
-}
-.ev .dt {
-	display: block;
-	font: 400 11px var(--mono);
-	color: var(--dim);
-}
-.ev .tt {
-	display: block;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 1.3;
-	margin-top: 4px;
-}
-.ev.up .su {
-	display: none;
-}
-.ev .su {
-	display: block;
-	color: var(--dim);
-	font-size: 13px;
-	line-height: 1.4;
-	margin-top: 4px;
-}
-.ev.proj {
-	border-color: color-mix(in srgb, var(--proj) 40%, var(--rule));
-}
-.ev.proj .dt {
-	color: var(--proj);
-}
-.ev.now {
-	border-color: var(--proj);
-}
-.ev .st {
-	display: inline-block;
-	margin-top: 8px;
-	font: 400 10px var(--mono);
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--proj);
-}
-.ev.wk {
-	border-color: color-mix(in srgb, var(--job) 45%, var(--rule));
-}
-.ev.wk::before {
-	background: var(--job);
-}
-.ev.wk .dt {
-	color: var(--job);
-	display: flex;
-	align-items: center;
-	gap: 7px;
-}
-.hint {
-	color: var(--dim);
-	margin: 14px 0 0;
-}
-
 .split {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 20px;
-	padding-block: 72px;
+	padding-block: 40px 64px;
 }
 .big {
 	background: var(--card);
@@ -245,27 +72,74 @@
 	margin-top: 14px;
 }
 
-/* Phones: the line becomes a vertical list */
+.legend {
+	display: flex;
+	gap: 22px;
+	color: var(--dim);
+		flex-wrap: wrap;
+}
+.legend span {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+}
+.legend i {
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--ink);
+}
+.legend i.p {
+	border-radius: 2px;
+	background: var(--proj);
+}
+.legend i.j {
+	border-radius: 3px;
+	background: #635bff;
+}
+
+
+.line {
+	border-top: 1px solid var(--rule);
+	padding-block: 36px 80px;
+}
+.line-h {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 16px 32px;
+	flex-wrap: wrap;
+	margin-bottom: 40px;
+}
+.line-h h2 {
+	margin: 0;
+	color: var(--dim);
+}
+
+/* The line. --gut is the space between the line and the text; on wide screens the years sit in a
+   gutter to the left of the line. */
 .vlist {
-	display: none;
+	--gut: 18px;
 	list-style: none;
-	margin: 28px 0 0;
-	padding: 0 0 0 18px;
+	margin: 0;
+	padding: 0 0 0 var(--gut);
 	border-left: 1px solid var(--ink);
+	max-width: 720px;
 }
 .vlist li {
 	position: relative;
-	padding: 0 0 22px 6px;
+	padding: 0 0 26px 6px;
 }
 .vlist li::before {
 	content: "";
 	position: absolute;
-	left: -23px;
+	left: calc(-1 * var(--gut) - 5px);
 	top: 9px;
 	width: 9px;
 	height: 9px;
 	border-radius: 50%;
 	background: var(--ink);
+	box-shadow: 0 0 0 3px var(--bg);
 }
 .vlist li.proj::before {
 	border-radius: 2px;
@@ -274,9 +148,33 @@
 .vlist li.wk::before {
 	display: none;
 }
+.vlist li.y {
+	padding: 10px 0 18px 6px;
+}
+.vlist li.y:first-child {
+	padding-top: 0;
+}
+.vlist li.y::before {
+	top: auto;
+	bottom: 26px;
+	left: calc(-1 * var(--gut) - 6px);
+	width: 11px;
+	height: 1px;
+	border-radius: 0;
+	box-shadow: none;
+}
+.vlist li.y span {
+	display: block;
+	font: 400 12px/1 var(--mono);
+	letter-spacing: 0.08em;
+	color: var(--ink);
+}
+.vlist a {
+	display: block;
+}
 .vlist .vm {
 	position: absolute;
-	left: -26px;
+	left: calc(-1 * var(--gut) - 8px);
 	top: 6px;
 	line-height: 0;
 }
@@ -290,8 +188,10 @@
 	height: 9px;
 }
 .vlist .dt {
-	display: block;
-	font: 400 11px var(--mono);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font: 400 11px/1.6 var(--mono);
 	color: var(--dim);
 }
 .vlist li.proj .dt {
@@ -300,32 +200,75 @@
 .vlist li.wk .dt {
 	color: var(--job);
 }
+.vlist .st {
+	font-size: 10px;
+	line-height: 1;
+	padding: 3px 7px;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+}
 .vlist .tt {
 	display: block;
 	font-weight: 400;
 	font-size: 17px;
 	line-height: 1.3;
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	text-underline-offset: 4px;
+	text-decoration-thickness: 1px;
+	transition: text-decoration-color 0.2s;
+}
+.vlist a:hover .tt {
+	text-decoration-color: currentColor;
 }
 .vlist .su {
 	display: block;
 	color: var(--dim);
 	font-size: 14px;
+	margin-top: 2px;
+}
+
+/* Wide screens: the same line, with more room, and each year set large in a gutter to its left. */
+@media (min-width: 761px) {
+	.vlist {
+		--gut: 32px;
+		margin-left: 176px;
+	}
+	.vlist li {
+		padding-bottom: 34px;
+	}
+	.vlist li.y {
+		height: 0;
+		padding: 0;
+	}
+	.vlist li.y::before {
+		display: none;
+	}
+	.vlist li.y span {
+		position: absolute;
+		right: calc(100% + var(--gut) + 40px);
+		top: -2px;
+		font: 200 34px/1 var(--sans);
+		letter-spacing: -0.02em;
+	}
+	.vlist li:not(.y):has(+ li.y) {
+		padding-bottom: 64px;
+	}
+	.vlist .tt {
+		font-size: 20px;
+	}
+	.vlist .su {
+		font-size: 15px;
+	}
 }
 
 @media (max-width: 760px) {
 	.hero {
 		grid-template-columns: 1fr;
 	}
-	.rail,
-	.hint {
-		display: none;
-	}
-	.vlist {
-		display: block;
-	}
 	.split {
 		grid-template-columns: 1fr;
-		padding-block: 48px;
+		padding-block: 32px 48px;
 	}
 	.big {
 		grid-template-columns: 52px minmax(0, 1fr);
@@ -336,4 +279,15 @@
 		width: 52px;
 		height: 52px;
 	}
+	.line {
+		padding-block: 28px 56px;
+	}
+	.line-h {
+		margin-bottom: 28px;
+	}
+}
+
+/* Projects page: the same cards, more room above */
+.split.solo {
+	padding-block: 40px 80px;
 }
