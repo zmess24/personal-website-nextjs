@@ -91,12 +91,7 @@ export default function Post({ postData, strip, older, newer, totals }) {
 					<b ref={barRef} />
 				</div>
 				<div className="wrap">
-					<SiteHeader
-						links={[
-							{ href: "/", label: "Timeline" },
-							...NOW.map((n) => ({ href: n.url, label: n.name })),
-						]}
-					/>
+					<SiteHeader />
 					<header className="head">
 						<div className="kick caps">
 							{tags.map((t, i) => (

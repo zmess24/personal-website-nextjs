@@ -1,16 +1,11 @@
 import moment from "moment";
 import { JOBS, NOW } from "@/data/site";
 
-// Geometry of the horizontal line (px).
-export const PX = 48; // one month
-export const CARD_W = 176; // event card width
-export const LANE_UP = 104; // lane height above the axis (writing)
-export const LANE_DN = 132; // lane height below the axis (built + work)
-
 const DATE_FORMATS = ["MM-DD-YYYY", "MM/DD/YYYY", "MMM YYYY"];
 const parse = (d) => moment(d, DATE_FORMATS);
 
-// Build every event on the line from posts, earlier projects, work and current projects.
+// Every event on the line from posts, earlier projects, work and current projects,
+// grouped by year, newest first.
 export function buildEvents({ posts, projects }) {
 	const ev = [
 		...posts.map((p) => ({
@@ -31,37 +26,19 @@ export function buildEvents({ posts, projects }) {
 		...NOW.map((n) => ({ kind: "now", title: n.name, subtitle: n.tagline, date: n.date, href: n.url, status: n.status })),
 	].map((e) => {
 		const m = parse(e.date);
-		return { ...e, y: m.year(), mo: m.month(), label: m.format("MMM YYYY") };
+		return { ...e, t: m.valueOf(), y: m.year(), label: m.format("MMM YYYY") };
 	});
 
-	const startYear = Math.min(...ev.map((e) => e.y));
-	const endYear = Math.max(...ev.map((e) => e.y));
-	ev.forEach((e) => (e.m = (e.y - startYear) * 12 + e.mo));
-	// Oldest first; within a month, built things before writing.
-	ev.sort((a, b) => a.m - b.m || (a.kind === "post") - (b.kind === "post"));
+	// Newest first; on the same date, writing comes before the thing it was written alongside.
+	ev.sort((a, b) => b.t - a.t || (b.kind === "post") - (a.kind === "post"));
 
-	// Stack events that would overlap into lanes, separately above and below the axis.
-	const ends = { up: [], dn: [] };
-	ev.forEach((e) => {
-		const side = e.kind === "post" ? ends.up : ends.dn;
-		const x0 = (e.m + 0.5) * PX;
-		let lane = side.findIndex((end) => end <= x0);
-		if (lane === -1) {
-			lane = side.length;
-			side.push(0);
-		}
-		side[lane] = x0 + CARD_W + 10;
-		e.lane = lane;
-		e.x = Math.round(x0);
-	});
-
-	const months = (endYear - startYear + 1) * 12;
-	const axis = 30 + 24 + ends.up.length * LANE_UP; // axis y
-	const below = 40 + ends.dn.length * LANE_DN + 24;
 	const years = [];
-	for (let y = startYear; y <= endYear; y++) years.push({ year: y, x: (y - startYear) * 12 * PX });
+	ev.forEach(({ t, ...e }) => {
+		if (!years.length || years[years.length - 1].year !== e.y) years.push({ year: e.y, events: [] });
+		years[years.length - 1].events.push(e);
+	});
 
-	return { events: ev, years, width: months * PX + 300, axis, height: axis + below, startYear, endYear };
+	return { years, startYear: years[years.length - 1].year, endYear: years[0].year };
 }
 
 // Where a post sits on the line, as a fraction of the whole span (for the post page strip).
