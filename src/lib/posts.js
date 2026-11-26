@@ -11,50 +11,41 @@ import remarkImages from "remark-images";
 import remarkGfm from "remark-gfm";
 import prism from "remark-prism";
 import moment from "moment";
+import rehypePostBlocks from "./rehypePostBlocks";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
+const DATE_FORMAT = "MM-DD-YYYY";
+
+// Summaries in front matter end with "..."; the new design shows them as plain lines.
+const cleanDescription = (d) => (d || "").replace(/\s*(\.\.\.|…)\s*$/, "");
+
+function readPost(fileName) {
+	const id = fileName.replace(/\.md$/, "");
+	const fileContents = fs.readFileSync(path.join(postsDirectory, fileName), "utf8");
+	const matterResult = matter(fileContents);
+	return { id, matterResult };
+}
 
 export function getSortedPostsData() {
-	// Get file names under /posts
-	const fileNames = fs.readdirSync(postsDirectory);
-	const allPostsData = fileNames.map((fileName) => {
-		// Remove ".md" from file name to get id
-		const id = fileName.replace(/\.md$/, "");
-
-		// Read markdown file as string
-		const fullPath = path.join(postsDirectory, fileName);
-		const fileContents = fs.readFileSync(fullPath, "utf8");
-
-		// Use gray-matter to parse the post metadata section
-		const matterResult = matter(fileContents);
-
-		// Combine the data with the id
-		return {
-			id,
-			...matterResult.data,
-		};
-	});
-	// Sort posts by date
-	return allPostsData.sort((a, b) => {
-		a = moment(a.date, "MM-DD-YYYY");
-		b = moment(b.date, "MM-DD-YYYY");
-		if (a < b) {
-			return 1;
-		} else {
-			return -1;
-		}
-	});
+	const allPostsData = fs
+		.readdirSync(postsDirectory)
+		.filter((f) => f.endsWith(".md"))
+		.map((fileName) => {
+			const { id, matterResult } = readPost(fileName);
+			return {
+				id,
+				...matterResult.data,
+				description: cleanDescription(matterResult.data.description),
+			};
+		});
+	// Newest first
+	return allPostsData.sort((a, b) => moment(b.date, DATE_FORMAT).valueOf() - moment(a.date, DATE_FORMAT).valueOf());
 }
 
 export async function getPostData(id) {
-	const fullPath = path.join(postsDirectory, `${id}.md`);
-	const fileContents = fs.readFileSync(fullPath, "utf8");
+	const { matterResult } = readPost(`${id}.md`);
+	const toc = [];
 
-	// Use gray-matter to parse the post metadata section
-	const matterResult = matter(fileContents);
-
-	// Use remark to convert markdown into HTML string
-	// const processedContent = await remark().use(html, { sanitize: false }).use(prism).use(remarkMath).use(rehypeKatex).process(matterResult.content);
 	const processedContent = await remark()
 		.use(remarkParse)
 		.use(remarkImages)
@@ -63,27 +54,29 @@ export async function getPostData(id) {
 		.use(remarkMath)
 		.use(remarkRehype)
 		.use(rehypeKatex)
+		.use(rehypePostBlocks, { toc })
 		.use(rehypeStringify)
 		.process(matterResult.content);
 	const contentHtml = processedContent.toString();
 
-	// Combine the data with the id and contentHtml
+	// Reading time from the prose (code blocks left out), at ~225 words a minute.
+	const prose = matterResult.content.replace(/```[\s\S]*?```/g, " ").replace(/^(?: {4}|\t).*$/gm, " ");
+	const words = prose.split(/\s+/).filter(Boolean).length;
+	const readingMinutes = Math.max(1, Math.round(words / 225));
+
 	return {
 		id,
 		contentHtml,
+		toc,
+		readingMinutes,
 		...matterResult.data,
+		description: cleanDescription(matterResult.data.description),
 	};
 }
 
 export function getAllPostIds() {
-	const fileNames = fs.readdirSync(postsDirectory);
-
-	return fileNames.map((fileName) => {
-		// Remove ".md" from file name to get id
-		const id = fileName.replace(/\.md$/, "");
-
-		return {
-			params: { id },
-		};
-	});
+	return fs
+		.readdirSync(postsDirectory)
+		.filter((f) => f.endsWith(".md"))
+		.map((fileName) => ({ params: { id: fileName.replace(/\.md$/, "") } }));
 }

@@ -1,6 +1,6 @@
 ---
 title: "Fun with Linear Algebra and Matrices"
-description: "Exploring matrix mathmatical operations..."
+description: "Exploring matrix mathematical operations..."
 tags: ["Math"]
 date: "02-26-2024"
 link: "/posts/fun-with-linear-algebra-and-matrices"

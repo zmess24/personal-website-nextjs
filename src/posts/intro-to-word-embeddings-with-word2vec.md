@@ -1,6 +1,6 @@
 ---
 title: "Intro to Word Embeddings with Word2Vec"
-description: "Creating Word2Vec from scatch..."
+description: "Creating Word2Vec from scratch..."
 tags: ["Coding"]
 date: "05-27-2024"
 link: "/posts/intro-to-word-embeddings-with-word2vec"

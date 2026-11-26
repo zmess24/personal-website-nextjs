@@ -1,6 +1,6 @@
 ---
-title: "Retreival Augmented Generation"
-description: "RAG from scatch..."
+title: "Retrieval Augmented Generation"
+description: "RAG from scratch..."
 tags: ["Coding"]
 date: "12-27-2024"
 link: "/posts/retrieval-augmented-generation"

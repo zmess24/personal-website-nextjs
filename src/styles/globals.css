@@ -1,0 +1,152 @@
+/* Shared tokens and chrome. Light by default, dark when the system asks for it. */
+:root {
+	--bg: #f4f4f2;
+	--ink: #0d0d0d;
+	--text: #232321;
+	--soft: #4a4a47;
+	--dim: #7c7c78;
+	--faint: #c4c4bf;
+	--rule: rgba(0, 0, 0, 0.1);
+	--card: #fff;
+	--proj: #0a8fb0;
+	--job: #b06d0c;
+	--code-bg: #fbfbfa;
+	--code-ink: #24292f;
+	--k: #0a7ea4;
+	--s: #9a5b00;
+	--n: #b0306a;
+	--f: #5b3cc4;
+	--cm: #8a8a84;
+	--bi: #0a7ea4;
+	--sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	--mono: ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0b0b0b;
+		--ink: #f0f0ee;
+		--text: #dcdcd8;
+		--soft: #bdbdb8;
+		--dim: #86867f;
+		--faint: #3a3a37;
+		--rule: rgba(255, 255, 255, 0.1);
+		--card: #141413;
+		--proj: #3fd5f5;
+		--job: #f0a83c;
+		--code-bg: #111110;
+		--code-ink: #e6e6e2;
+		--k: #3fd5f5;
+		--s: #f0a83c;
+		--n: #ff86b0;
+		--f: #c3a6ff;
+		--cm: #7a7a74;
+		--bi: #7fe3f8;
+		color-scheme: dark;
+	}
+}
+* {
+	box-sizing: border-box;
+}
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 72px;
+}
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font: 300 16px/1.6 var(--sans);
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+a {
+	color: inherit;
+	text-decoration: none;
+}
+:focus-visible {
+	outline: 1.5px solid var(--proj);
+	outline-offset: 3px;
+}
+.caps {
+	font-size: 11px;
+	font-weight: 400;
+	letter-spacing: 0.28em;
+	text-transform: uppercase;
+	line-height: 1.4;
+}
+.wrap {
+	max-width: 1240px;
+	margin: 0 auto;
+	padding-left: max(24px, env(safe-area-inset-left, 0px));
+	padding-right: max(24px, env(safe-area-inset-right, 0px));
+}
+
+.top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 76px;
+}
+.top svg {
+	width: 28px;
+	fill: var(--ink);
+	display: block;
+}
+.top nav {
+	display: flex;
+	gap: 28px;
+	color: var(--soft);
+}
+.top nav a:hover {
+	color: var(--ink);
+}
+
+.foot {
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+	flex-wrap: wrap;
+	padding-block: 28px calc(40px + env(safe-area-inset-bottom, 0px));
+	border-top: 1px solid var(--rule);
+	color: var(--dim);
+}
+.foot nav {
+	display: flex;
+	gap: 24px;
+	flex-wrap: wrap;
+}
+.foot a:hover {
+	color: var(--ink);
+}
+
+/* Stripe mark used on work events */
+.logo {
+	flex: none;
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
+	background: #635bff;
+	display: inline-grid;
+	place-items: center;
+}
+.logo svg {
+	width: 10px;
+	height: 10px;
+	fill: #fff;
+	display: block;
+}
+
+@media (max-width: 520px) {
+	.top nav {
+		gap: 18px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	* {
+		transition: none !important;
+		animation: none !important;
+	}
+	html {
+		scroll-behavior: auto;
+	}
+}

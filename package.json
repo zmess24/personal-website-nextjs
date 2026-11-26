@@ -7,16 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "convert": "python3 -m nbconvert --to markdown ./src/drafts/*.ipynb --output-dir ./src/posts --output converted_notebook.md"  
+    "convert": "python3 -m nbconvert --to markdown ./src/drafts/*.ipynb --output-dir ./src/posts --output converted_notebook.md"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/free-brands-svg-icons": "^6.4.2",
-    "@fortawesome/free-regular-svg-icons": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
     "@swishjam/react": "^0.0.3",
-    "bulma": "^0.9.4",
     "gray-matter": "^4.0.3",
     "moment": "^2.29.4",
     "next": "14.0.1",
@@ -35,7 +29,6 @@
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-next": "14.0.1",
-    "sass": "^1.69.5"
+    "eslint-config-next": "14.0.1"
   }
 }
