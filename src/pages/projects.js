@@ -5,7 +5,7 @@ import SwishJam from "@/components/SwishJam";
 import NowCard from "@/components/NowCard";
 import { NOW, SITE_URL } from "@/data/site";
 
-// Only the projects I'm actively building. Earlier builds stay on the home page's timeline.
+// Only the projects I'm actively building.
 export default function Projects() {
 	return (
 		<>
@@ -21,7 +21,7 @@ export default function Projects() {
 					<main>
 						<header className="page-h">
 							<h1>Projects</h1>
-							<p>What I&apos;m building now. Earlier builds are on the timeline on the home page.</p>
+							<p>What I&apos;m building now.</p>
 						</header>
 						<section className="split solo" aria-label="Active projects">
 							{NOW.map((n) => (
