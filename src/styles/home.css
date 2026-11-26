@@ -118,7 +118,7 @@
 
 /* The line. --gut is the space between the line and the text; on wide screens the years sit in a
    gutter to the left of the line. */
-.vlist {
+.tline {
 	--gut: 18px;
 	list-style: none;
 	margin: 0;
@@ -126,11 +126,11 @@
 	border-left: 1px solid var(--ink);
 	max-width: 720px;
 }
-.vlist li {
+.tline li {
 	position: relative;
 	padding: 0 0 26px 6px;
 }
-.vlist li::before {
+.tline li::before {
 	content: "";
 	position: absolute;
 	left: calc(-1 * var(--gut) - 5px);
@@ -141,20 +141,20 @@
 	background: var(--ink);
 	box-shadow: 0 0 0 3px var(--bg);
 }
-.vlist li.proj::before {
+.tline li.proj::before {
 	border-radius: 2px;
 	background: var(--proj);
 }
-.vlist li.wk::before {
+.tline li.wk::before {
 	display: none;
 }
-.vlist li.y {
+.tline li.y {
 	padding: 10px 0 18px 6px;
 }
-.vlist li.y:first-child {
+.tline li.y:first-child {
 	padding-top: 0;
 }
-.vlist li.y::before {
+.tline li.y::before {
 	top: auto;
 	bottom: 26px;
 	left: calc(-1 * var(--gut) - 6px);
@@ -163,51 +163,51 @@
 	border-radius: 0;
 	box-shadow: none;
 }
-.vlist li.y span {
+.tline li.y span {
 	display: block;
 	font: 400 12px/1 var(--mono);
 	letter-spacing: 0.08em;
 	color: var(--ink);
 }
-.vlist a {
+.tline a {
 	display: block;
 }
-.vlist .vm {
+.tline .vm {
 	position: absolute;
 	left: calc(-1 * var(--gut) - 8px);
 	top: 6px;
 	line-height: 0;
 }
-.vlist .vm .logo {
+.tline .vm .logo {
 	width: 15px;
 	height: 15px;
 	box-shadow: 0 0 0 3px var(--bg);
 }
-.vlist .vm .logo svg {
+.tline .vm .logo svg {
 	width: 9px;
 	height: 9px;
 }
-.vlist .dt {
+.tline .dt {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	font: 400 11px/1.6 var(--mono);
 	color: var(--dim);
 }
-.vlist li.proj .dt {
+.tline li.proj .dt {
 	color: var(--proj);
 }
-.vlist li.wk .dt {
+.tline li.wk .dt {
 	color: var(--job);
 }
-.vlist .st {
+.tline .st {
 	font-size: 10px;
 	line-height: 1;
 	padding: 3px 7px;
 	border: 1px solid currentColor;
 	border-radius: 999px;
 }
-.vlist .tt {
+.tline .tt {
 	display: block;
 	font-weight: 400;
 	font-size: 17px;
@@ -218,10 +218,10 @@
 	text-decoration-thickness: 1px;
 	transition: text-decoration-color 0.2s;
 }
-.vlist a:hover .tt {
+.tline a:hover .tt {
 	text-decoration-color: currentColor;
 }
-.vlist .su {
+.tline .su {
 	display: block;
 	color: var(--dim);
 	font-size: 14px;
@@ -230,34 +230,34 @@
 
 /* Wide screens: the same line, with more room, and each year set large in a gutter to its left. */
 @media (min-width: 761px) {
-	.vlist {
+	.tline {
 		--gut: 32px;
 		margin-left: 176px;
 	}
-	.vlist li {
+	.tline li {
 		padding-bottom: 34px;
 	}
-	.vlist li.y {
+	.tline li.y {
 		height: 0;
 		padding: 0;
 	}
-	.vlist li.y::before {
+	.tline li.y::before {
 		display: none;
 	}
-	.vlist li.y span {
+	.tline li.y span {
 		position: absolute;
 		right: calc(100% + var(--gut) + 40px);
 		top: -2px;
 		font: 200 34px/1 var(--sans);
 		letter-spacing: -0.02em;
 	}
-	.vlist li:not(.y):has(+ li.y) {
+	.tline li:not(.y):has(+ li.y) {
 		padding-bottom: 64px;
 	}
-	.vlist .tt {
+	.tline .tt {
 		font-size: 20px;
 	}
-	.vlist .su {
+	.tline .su {
 		font-size: 15px;
 	}
 }

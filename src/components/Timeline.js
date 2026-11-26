@@ -16,7 +16,7 @@ function EventLink({ e, children }) {
 // told apart by their marker and date colour. The same list serves phones and desktop.
 export default function Timeline({ layout }) {
 	return (
-		<ol className="vlist" id="line" aria-label={`Timeline, ${layout.startYear} to now`}>
+		<ol className="tline" id="line" aria-label={`Timeline, ${layout.startYear} to now`}>
 			{layout.years.map(({ year, events }) => [
 				<li key={`y-${year}`} className="y" aria-hidden="true">
 					<span>{year}</span>
