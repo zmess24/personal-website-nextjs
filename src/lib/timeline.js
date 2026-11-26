@@ -4,9 +4,9 @@ import { JOBS, NOW } from "@/data/site";
 const DATE_FORMATS = ["MM-DD-YYYY", "MM/DD/YYYY", "MMM YYYY"];
 const parse = (d) => moment(d, DATE_FORMATS);
 
-// Every event on the line from posts, earlier projects, work and current projects,
+// Every event on the line from posts, work and current projects (CLZ Labs and Rung),
 // grouped by year, newest first.
-export function buildEvents({ posts, projects }) {
+export function buildEvents({ posts }) {
 	const ev = [
 		...posts.map((p) => ({
 			kind: "post",
@@ -14,13 +14,6 @@ export function buildEvents({ posts, projects }) {
 			subtitle: p.description,
 			date: p.date,
 			href: `/posts/${p.id}`,
-		})),
-		...projects.map((p) => ({
-			kind: "proj",
-			title: p.title,
-			subtitle: p.description,
-			date: p.date,
-			href: p.link,
 		})),
 		...JOBS.map((j) => ({ kind: "job", title: j.title, subtitle: j.subtitle, date: j.date, href: j.url, logo: j.logo })),
 		...NOW.map((n) => ({ kind: "now", title: n.name, subtitle: n.tagline, date: n.date, href: n.url, status: n.status })),

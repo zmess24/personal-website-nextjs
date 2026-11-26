@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import moment from "moment";
 import { getAllPostIds, getPostData, getSortedPostsData } from "@/lib/posts";
-import { getSortedProjectsData } from "@/lib/projects";
 import { postStrip } from "@/lib/timeline";
 import { NOW, SITE_URL } from "@/data/site";
 import SiteHeader from "@/components/SiteHeader";
@@ -182,7 +181,7 @@ export async function getStaticProps({ params }) {
 			strip: postStrip(posts, params.id),
 			older: pick(posts[i + 1]),
 			newer: pick(posts[i - 1]),
-			totals: { posts: posts.length, projects: getSortedProjectsData().length + NOW.length },
+			totals: { posts: posts.length, projects: NOW.length },
 		},
 	};
 }

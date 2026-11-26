@@ -4,15 +4,13 @@ import SiteFooter from "@/components/SiteFooter";
 import NowCard from "@/components/NowCard";
 import Timeline from "@/components/Timeline";
 import SwishJam from "@/components/SwishJam";
-import { getSortedProjectsData } from "@/lib/projects";
 import { getSortedPostsData } from "@/lib/posts";
 import { buildEvents } from "@/lib/timeline";
 import { BIO, NOW, SITE_URL } from "@/data/site";
 
 export async function getStaticProps() {
 	const posts = getSortedPostsData().map(({ id, title, description, date }) => ({ id, title, description, date }));
-	const projects = getSortedProjectsData().map(({ title, description, date, link }) => ({ title, description, date, link }));
-	return { props: { layout: buildEvents({ posts, projects }) } };
+	return { props: { layout: buildEvents({ posts }) } };
 }
 
 export default function Home({ layout }) {

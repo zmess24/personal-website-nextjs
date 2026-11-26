@@ -1,5 +1,5 @@
-// Hand-kept content for the home page. Posts come from src/posts and earlier
-// projects from src/projects; everything else on the timeline lives here.
+// Hand-kept content for the home page. Posts come from src/posts; everything
+// else on the timeline lives here.
 
 export const SITE_URL = "https://www.zacmessinger.com";
 
